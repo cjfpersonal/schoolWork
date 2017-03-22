@@ -1,0 +1,373 @@
+@charset "utf-8";
+/*
+@名称: base
+@功能: 重设浏览器默认样式
+*/
+/* 防止用户自定义背景颜色对网页的影响，添加让用户可以自定义字体 */
+/* 内外边距通常让各个浏览器样式的表现位置不同 */
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,hr,button,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section {
+  margin:0;
+  padding:0;
+  -webkit-box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  -ms-box-sizing:border-box;
+  -o-box-sizing:border-box;
+  box-sizing:border-box;
+}
+
+
+label{
+    margin: 0;
+    font-weight: normal;
+}
+
+/* 要注意表单元素并不继承父级 font 的问题 */
+button,input,select,textarea {
+  border-radius: 2px;
+  resize: none;
+  font:14px "Helvetica Neue","Arial","PingFang SC","Hiragino Sans GB","\5B8B\4F53","Microsoft Yahei",sans-serif;
+}
+html,body{
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    color: #666;
+    font-family: "Helvetica Neue",Tahoma, Arial,"Microsoft Yahei",sans-serif;
+    font-size: 14px;
+    background-color: #f5f5f5;
+}
+input,select,textarea {
+  font-size:100%;
+}
+/* 去掉各Table cell 的边距并让其边重合 */
+table {
+  border-collapse:collapse;
+  border-spacing:0;
+}
+/* IE bug fixed: th 不继承 text-align*/
+th,tr,td {
+  text-align:center;
+  border: none
+}
+/* 去除默认边框 */
+fieldset,img {
+  border:none;
+}
+/* 去掉 firefox 下此元素的边框 */
+abbr,acronym {
+  border:none;
+  font-variant:normal;
+}
+/* 一致的 del 样式 */
+del {
+  text-decoration:line-through;
+}
+address,caption,cite,code,dfn,em,th,var {
+  font-style:normal;
+  font-weight:500;
+}
+/* 去掉列表前的标识, li 会继承 */
+ol,ul {
+  list-style:none;
+}
+/* 对齐是排版最重要的因素, 别让什么都居中 */
+caption {
+  text-align:left;
+}
+/* 来自yahoo, 让标题都自定义, 适应多个系统应用 */
+h1,h2,h3,h4,h5,h6 {
+  font-size:100%;
+  font-weight:400;
+  line-height: inherit;
+}
+h2{
+  font-size: 20px;
+}
+h3{
+  font-size: 18px;
+}
+h4{
+  font-size: 16px;
+}
+h5{
+  font-size: 14px;
+  font-family: "Helvetica Neue","Arial","PingFang SC","Hiragino Sans GB","\5B8B\4F53","Microsoft Yahei",sans-serif;
+}
+h6{
+  font-size: 12px;
+  font-family: "Helvetica Neue","Arial","PingFang SC","Hiragino Sans GB","\5B8B\4F53","Microsoft Yahei",sans-serif;
+}
+q:before,q:after {
+  content:'';
+}
+/* 统一上标和下标 */
+sub, sup {
+  font-size:75%;
+  line-height:0;
+  position:relative;
+  vertical-align:baseline;
+}
+sup {
+  top:-0.5em;
+}
+sub {
+  bottom:-0.25em;
+}
+/*code, kbd, pre, samp {
+  font-family: "Helvetica Neue","Arial","PingFang SC","Hiragino Sans GB","\5B8B\4F53","Microsoft Yahei",sans-serif!important;
+}*/
+/* 让链接在 hover 状态下显示下划线 */
+a:hover {
+  text-decoration:underline;
+}
+a:focus{
+  text-decoration:none;
+}
+/* 默认不显示下划线，保持页面简洁 */
+ins,a {
+  color: #fff;
+  text-decoration:none;
+}
+/* IE6,7焦点点状线去除 */
+a:hover,a:focus,*:focus {
+  outline:none;
+  text-decoration: none;
+}
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+    color: #ccc;
+}
+input::-moz-placeholder,
+textarea::-moz-placeholder {
+    color: #ccc;
+}
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+    color: #ccc;
+}
+pre {
+  white-space: pre-wrap;       /* css-3 */
+  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;      /* Opera 4-6 */
+  white-space: -o-pre-wrap;    /* Opera 7 */
+  word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+/* 清除浮动 */
+.clearfix:before,.clearfix:after {
+  content:"";
+  display:table;
+}
+.clearfix:after {
+  clear:both;
+  overflow:hidden;
+  display: block;
+  visibility: hidden;
+  height: 0;
+  line-height: 0;
+}
+.clearfix {
+  zoom:1;
+}
+.clear{
+  clear:both;
+  display:block;
+  overflow:hidden;
+  height:0;
+  line-height:0;
+  font-size:0;
+}
+.hide {
+  display:none !important;
+  visibility:hidden;
+}
+.block {
+  display:block !important;
+}
+.block-button {
+    width: 100%;
+}
+.inline-block{
+  display:inline-block !important;
+}
+.ovh{
+  overflow: hidden;
+}
+.ovdot{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pointer, button, input[type='radio'] {
+  cursor: pointer;
+}
+.underline:hover{
+    text-decoration: underline;
+}
+.relative{
+  position: relative;
+}
+.tac{
+  text-align: center;
+}
+.f12{
+  font-size: 12px;
+  font-family: "Helvetica Neue","Arial","PingFang SC","Hiragino Sans GB","\5B8B\4F53","Microsoft Yahei",sans-serif;
+}
+.f14{
+  font-size: 14px;
+  font-family: "Helvetica Neue","Arial","PingFang SC","Hiragino Sans GB","\5B8B\4F53","Microsoft Yahei",sans-serif;
+}
+.f16{
+  font-size: 16px;
+}
+.f18{
+  font-size: 18px;
+}
+.f20{
+  font-size: 20px;
+}
+
+.w100{
+    width: 100%;
+}
+
+.h100{
+    height: 100%;
+}
+
+.a100{
+    width: 100%;
+    height: 100%;
+}
+
+.w5{
+    width: 5%;
+}
+
+.w10{
+    width: 10%;
+}
+.w14{
+    width: 14%;
+}
+
+.w15{
+    width: 15%;
+}
+
+.w20{
+    width: 20%;
+}
+
+.w25{
+    width: 25%;
+}
+
+.w30{
+    width: 30%;
+}
+
+.w35{
+    width: 35%;
+}
+
+.w40 {
+    width: 40%;
+}
+
+.w50 {
+    width: 50%;
+}
+.w60 {
+    width: 60%;
+}
+
+.fl{
+    float: left;
+}
+
+.fr{
+    float: right;
+}
+
+.fn{
+    float: none;
+}
+
+.pl100 {
+    padding-left: 100px;
+}
+
+.hcenter {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    box-orient: horizontal;
+    -webkit-justify-content: center;
+    justify-content: center;
+    box-align: center;
+}
+.f22{
+  font-size: 22px;
+}
+.none{
+  display: none !important;
+}
+*,*:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #999;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:    #999;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:    #999;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color:    #999;
+}
+/*ie 输入框X和密码查看*/
+input::-ms-clear,
+input::-ms-reveal{
+    display: none;
+}
+body .fn-hide-abs {
+    position: absolute!important;
+    top: -10000px!important;
+    left: -10000px!important;
+}
+/* 修改bootstrp中的样式 */
+.col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12 {
+  padding: 0;
+  margin: 0;
+}
+.table thead tr th,.table tbody tr td {
+  border: none
+}
+.table tbody {
+  overflow-y: scroll;
+}
+.table thead tr th, .table tbody tr:nth-child(even) td {
+  background-color: #f9f9f9;
+}
+.table tbody tr:nth-child(odd) td{
+  background-color: white;
+}
+.pointer {
+    cursor: pointer;
+}
+.top34{
+    top: -34px;
+}
+.route-color {
+  color: #3896F8
+}
+.pr {
+  position: relative
+}

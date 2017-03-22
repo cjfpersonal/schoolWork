@@ -1,0 +1,8 @@
+.location-ico {
+    background-image: url(./src/location.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+}
