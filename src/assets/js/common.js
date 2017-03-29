@@ -27,6 +27,20 @@ Vue.filter('time', function (value) {
   return t
 })
 
+Vue.filter('date', function (value) {
+  let date = new Date(value)
+  let Y = date.getFullYear()
+  let m = date.getMonth() + 1
+  let d = date.getDate()
+  if (m < 10) {
+    m = '0' + m
+  } if (d < 10) {
+    d = '0' + d
+  }
+  let t = Y + '-' + m + '-' + d
+  return t
+})
+
 Vue.filter('checkLength', function (value) {
   if (value.length > 50) {
     return value.substr(0, 50) + '...'
@@ -95,4 +109,25 @@ Vue.prototype.postHttp = function (url, data) {
       return false
     })
   })
+}
+Vue.prototype.ComplexCustomOverlay = function (point, text) {
+  this._point = point
+  this._text = text
+}
+Vue.prototype.ComplexCustomOverlay.prototype = new window.BMap.Overlay()
+Vue.prototype.ComplexCustomOverlay.prototype.initialize = function (map) {
+  this._map = map
+  if (document.getElementsByClassName('float-window-box')[0]) {
+    document.getElementsByClassName('float-window-box')[0].remove()
+  }
+  var div = this._div = document.createElement('div')
+  div.classList.add('float-window-box')
+  div.style.zIndex = window.BMap.Overlay.getZIndex(this._point.lat)
+  div.appendChild(document.createTextNode(this._text.name))
+  map.getPanes().labelPane.appendChild(div)
+  return div
+}
+Vue.prototype.ComplexCustomOverlay.prototype.draw = function () {
+  this._div.style.left = 0 + 'px'
+  this._div.style.bottom = 0 + 'px'
 }

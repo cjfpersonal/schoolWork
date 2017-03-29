@@ -17,6 +17,18 @@ Vue.use(MintUI)
 // 可以从其他文件 import 进来
 import home from './components/home'
 
+import userInfo from './components/userInfo/index'
+
+import noticeHome from './components/notice/home'
+import noticeIndex from './components/notice/index'
+import noticeCreate from './components/notice/create'
+import noticeDetail from './components/notice/detail'
+
+import courseHome from './components/course/home'
+import courseIndex from './components/course/index'
+import courseCreate from './components/course/create'
+import courseDetail from './components/course/detail'
+
 import activityHead from './components/activity/head'
 import activityIndex from './components/activity/index'
 import activityCreate from './components/activity/create'
@@ -26,7 +38,10 @@ import activityoneDetail from './components/activity/oneDetail'
 import tradeIndex from './components/app_second_trade/index'
 import tradeHead from './components/app_second_trade/head'
 import tradeCreate from './components/app_second_trade/create'
-// import headl from './components/app_second_trade/head'
+import tradeManage from './components/app_second_trade/manage'
+import tradeDetail from './components/app_second_trade/detail'
+import tradeCar from './components/app_second_trade/shopping-car'
+
 // 2. 定义路由
 // 每个路由应该映射一个组件。 其中"component" 可以是
 // 通过 Vue.extend() 创建的组件构造器，
@@ -35,6 +50,25 @@ import tradeCreate from './components/app_second_trade/create'
 const routes = [
   { path: '/', redirect: '/home' },
   { path: '/home', component: home },
+  { path: '/userInfo', component: userInfo },
+  { path: '/notice',
+    component: noticeHome,
+    children: [
+      { path: '', redirect: 'index' },
+      { path: 'index', component: noticeIndex },
+      { path: 'create/:type', component: noticeCreate },
+      { path: 'detail/:type/:id', component: noticeDetail }
+    ]
+  },
+  { path: '/course',
+    component: courseHome,
+    children: [
+      { path: '', redirect: 'index' },
+      { path: 'index', component: courseIndex },
+      { path: 'create', component: courseCreate },
+      { path: 'detail/:id', component: courseDetail }
+    ]
+  },
   { path: '/tradeIndex', component: tradeIndex },
   { path: '/activity',
     component: activityHead,
@@ -51,7 +85,10 @@ const routes = [
     children: [
       { path: '', redirect: 'index' },
       { path: 'index', component: tradeIndex },
-      { path: 'create', component: tradeCreate }
+      { path: 'create', component: tradeCreate },
+      { path: 'manage', component: tradeManage },
+      { path: 'manage/:id', component: tradeDetail },
+      { path: 'shoppingCar', component: tradeCar }
     ]
   }
 ]

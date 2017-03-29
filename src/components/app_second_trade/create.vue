@@ -1,17 +1,17 @@
 <template>
-<div style="margin-bottom: 70px">
+<div style="margin-bottom: 70px; width: 100%; overflow: hidden">
+  <choice-popup :decideShow="decideShow" :dataChoice="typeChoice" v-on:eee="getChoce"></choice-popup>
     <mt-field label="商品名称" v-model="data.shopName" placeholder="请输入商品名称" class="activity-create-input"></mt-field>
     <mt-field label="商品数量" v-model="data.shopNumber" type="num" placeholder="请输入商品数量" class="activity-create-input"></mt-field>
     <mt-field label="商品价格" v-model="data.shopPrice" type="num" placeholder="请输入商品价格" class="activity-create-input"></mt-field>
-    <mt-field label="商品类型" class="activity-create-input">
-        <el-select v-model="data.shopType" placeholder="请选择" style="top: 7px">
-            <el-option
-            v-for="item in typeChoice"
-            :label="item"
-            :value="item">
-            </el-option>
-        </el-select>
+    <mt-field label="商品类型" v-model="data.shopType" type="num" 
+    disabled
+    @click.native="decideShowAction"
+    placeholder="选择商品类型" class="activity-create-input">
     </mt-field>
+    <!--<mt-cell title="商品类型" is-link @click="decideShowAction">
+      <span >点击进行筛选</span>
+    </mt-cell>-->
     <mt-field label="商品描述" placeholder="商品描述" v-model="data.shopDescription" type="textarea" rows="4"></mt-field>
     <mt-radio
     title="是否匿名出售"
@@ -34,12 +34,47 @@
 </template>
 <script>
 import { MessageBox, Toast } from 'mint-ui'
+import popupShow from '../common/toastChoice'
 
 export default {
   name: 'tradeCreate',
+  components: {
+    'choice-popup': popupShow
+  },
   data () {
     return {
-      typeChoice: ['全部', '衣服', '商品', '医药', '水果', '零食', '电器', '家具', '书籍', '瓷器', '其他'],
+      decideShow: false,
+      typeChoice: [
+        {
+          name: '全部',
+          value: '全部'
+        }, {
+          name: '衣服',
+          value: '商品'
+        }, {
+          name: '医药',
+          value: '医药'
+        }, {
+          name: '水果',
+          value: '水果'
+        }, {
+          name: '零食',
+          value: '零食'
+        }, {
+          name: '电器',
+          value: '电器'
+        }, {
+          name: '家具',
+          value: '家具'
+        }, {
+          name: '书籍',
+          value: '书籍'
+        }, {
+          name: '瓷器',
+          value: '瓷器'
+        }, {
+          name: '其他',
+          value: '其他'}],
       data: {
         shopName: '',
         shopDescription: '',
@@ -56,6 +91,13 @@ export default {
     this.init()
   },
   methods: {
+    decideShowAction () {
+      this.decideShow = true
+    },
+    getChoce (item) {
+      this.decideShow = false
+      this.data.shopType = item.value
+    },
     init () {
       console.log(345)
     },

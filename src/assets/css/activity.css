@@ -27,7 +27,7 @@
     padding-right: 15px;
 }
 .activity-head-search {
-    padding-right: 20px;
+    padding-right: 10px;
     cursor: pointer;
     font-size: 20px
 }
@@ -45,13 +45,11 @@
     overflow: hidden;
     position: absolute;
     width: 100%;
+    box-shadow: 0 10px 10px #888;
     z-index: 10
 }
 .heightSearch {
     height: 77px;
-}
-.heightList {
-    height: 420px
 }
 .activity-head-bottom-content {
     position: relative;

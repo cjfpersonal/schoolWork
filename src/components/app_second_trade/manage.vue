@@ -31,30 +31,53 @@
       </mt-radio>
     </div>
   </div>
-  <div class='all-trade-shop-box clearfix'>
-    <div v-for="(item, index) in items" v-if='items.length>0'
-      class="trade-content-box">
-      <img :src="item.shopPicture" class="trade-picture" />
-      <div class="trade-description-box">
-        <p class="trade-description-name">{{item.shopName + '' + index%2}}</p>
-        <p>{{item.shopType}}</p>
-        <p class="trade-description-price">￥{{item.shopPrice}}</p>
-      </div>
-    </div>
+  <div class='manage-trade-shop-box clearfix'>
+    <el-row v-for="(item, index) in items" v-if='items.length>0'
+      class="manage-trade-content-box">
+      <el-col :xs="4" style="line-height: 60px; text-align: center">
+        <el-checkbox class="radio" v-model="choiceShop[index]"></el-checkbox>
+      </el-col>
+      <el-col :xs="8">
+        <img :src="item.shopPicture" class="manage-trade-picture" />
+      </el-col>
+      <el-col :xs="12">
+        <div class="manage-trade-description-box" style="position:relative">
+          <p class="hide-more-font manage-trade-description-name">{{item.shopName + '' + index%2}}</p>
+          <p class="hide-more-font" style="font-size: 12px">{{item.shopType}}</p>
+          <p class="hide-more-font" style="font-size: 12px">{{item.shopDescription}}</p>
+          <p class="hide-more-font manage-trade-description-price">￥{{item.shopPrice}}</p>
+          <p class="detail-btn" @click="gotoRouter($event, 'manage/' + item._id)">详情</p>
+        </div>
+      </el-col>
+    </el-row>
     <div v-if='items.length == 0' class="empty-box">
       <p class="empty-logo">(ㆆᴗㆆ)</p>
       <p class="empty-description">没有搜索到您需要的商品，请尝试更换条件</p>
     </div>
   </div>
+  <el-row v-if='items.length>0&&!getChoice[0]&&!getChoice[1]' style="position: fixed; width: 100%; bottom: 0px;z-index: 100">
+    <el-col :xs="8">
+       <el-button style="width: 100%; border-radius: 0" @click="downLoad">下架</el-button>
+    </el-col>
+    <el-col :xs="8">
+       <el-button type="danger"  style="width: 100%; border-radius: 0">删除</el-button>
+    </el-col>
+    <el-col :xs="8">
+       <el-button type="primary"  style="width: 100%; border-radius: 0" @click="showChart">上架</el-button>
+    </el-col>
+  </el-row>
 </div>
 </template>
 
 <script>
+
 export default {
   name: 'heaPage',
   data () {
     return {
+      radio: false,
       getChoice: [false, false],
+      choiceShop: [],
       data: {
         shopName: '',
         shopType: '全部',
@@ -77,9 +100,6 @@ export default {
   created () {
     let _self = this
     _self.init()
-    window.onresize = function () {
-      _self.imgResize()
-    }
   },
   methods: {
     init () {
@@ -89,21 +109,10 @@ export default {
       _self.getHttp('/login/search/user?shopName=' + oBj.shopName +
        '&shopType=' + oBj.shopType + '&priceStart=' + oBj.priceStart).then(function (data) {
          _self.items = data
-         _self.imgResize()
+         data.forEach(function (item, index) {
+           _self.choiceShop[index] = false
+         })
        })
-    },
-    imgResize () {
-      if (this.items.length === 0) {
-        return false
-      }
-      setTimeout(function () {
-        let obj = document.getElementsByClassName('trade-picture')
-        obj[0].style.width = '80%'
-        for (let i = 0; i < obj.length; i++) {
-          obj[i].style.height = parseInt(obj[0].offsetWidth) + 'px'
-          obj[i].style.width = parseInt(obj[0].offsetWidth) + 'px'
-        }
-      })
     },
     showChoice (e, index) {
       e.stopPropagation()
@@ -114,6 +123,13 @@ export default {
         }
       })
       _self.$set(_self.getChoice, index, !_self.getChoice[index])
+    },
+    gotoRouter (e, value) {
+      e.stopPropagation()
+      this.$router.push(value)
+    },
+    downLoad () {
+      console.log(this.choiceShop)
     }
   }
 }
@@ -138,8 +154,7 @@ export default {
   width: 100%;
   height: 0;
   transition: all .4s;
-  overflow: hidden;
-  z-index: 100  
+  overflow: hidden
 }
 .type-choice-box.active {
   height: 100%;
@@ -156,51 +171,35 @@ export default {
   width: 50%;
   float: left
 }
-.all-trade-shop-box {
-  padding: 0 10px;
+.manage-trade-shop-box {
+  padding: 15px 10px 60px 10px;
   width: 100%;
   min-height: 100%;
-}
-.trade-content-box {
   background: white;
-  width: calc(50% - 7px);
-  display: inline-block;
-  margin-bottom: 14px;
-  text-align: center;
-  float: left
+  margin-top: 15px;
 }
-@media (max-width: 450px) {
-  .trade-content-box:nth-child(2n - 1) {
-    margin-right: 14px
-  }
-}
-.trade-picture {
-  width: 80%;
-  margin: 10px 0;
-}
-@media (min-width: 450px) {
-  .trade-content-box {
-    background: white;
-    width: 32%;
-    display: inline-block;
-    margin-bottom: 14px;
-    text-align: center;
-    float: left
-  }
-  .trade-content-box:nth-child(3n - 1), .trade-content-box:nth-child(3n - 2) {
-    margin-right: 2%
-  }
-}
-.trade-description-box {
+.manage-trade-content-box {
   padding: 10px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, .1);
+  width: 100%;
+  display: inline-block
 }
-.trade-description-name {
-  font-size: 17px;
-  font-weight: 600;
-  height: 24px;
+.manage-trade-picture {
+  height: 60px;
+  width: 60px;
+  display: inline-block
 }
-.trade-description-price {
-  color: rgba(0, 0, 0, .4)
+.manage-trade-description-price {
+  color: red;
+  position: relative;
+  bottom: 0px;
+  font-size: 14px
+}
+.detail-btn {
+  position: absolute;
+  bottom: 0px;
+  right: 15px;
+  color: #20a0ff
 }
 .empty-box {
   display: block;

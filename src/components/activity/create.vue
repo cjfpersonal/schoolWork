@@ -24,11 +24,15 @@
       </li>
     </ul>
     <el-dialog title="信息输入" v-model="dialogFormVisible" top="0">-->
+    <date-time-show v-on:time="getTime" :startTime="''" :openTime='sh.time'></date-time-show>
     <div v-if="createType === 'trends'">
       <mt-field label="活动名称" v-model="trends.name" placeholder="请输入活动名称" class="activity-create-input"></mt-field>
       <mt-field label="活动地址" v-model="trends.address" placeholder="请输入活动地址" class="activity-create-input"></mt-field>
       <mt-field label="限制人数" v-model="trends.count" placeholder="请输入限制人数" class="activity-create-input"></mt-field>
-      <mt-field label="活动时间" v-model="trends.time" placeholder="请选择活动时间" type="time" class="activity-create-input"></mt-field>
+      <mt-field label="活动时间" v-model="trends.time" 
+      placeholder="请选择活动时间" 
+      @click.native="showTime('trends', 'time')"
+      class="activity-create-input"></mt-field>
       <mt-field label="联系手机" v-model="trends.phone" placeholder="请输入手机号" type="tel" class="activity-create-input"></mt-field>
       <mt-field label="报名金额" v-model="trends.money" placeholder="请输入报名金额" type="num" class="activity-create-input"></mt-field>
       <mt-field label="活动描述" v-model="trends.description" placeholder="活动描述" type="textarea" rows="4" class="activity-create-input"></mt-field>
@@ -74,7 +78,8 @@
       <mt-field label="课程编号" v-model="course.number" placeholder="请输入课程编号" class="activity-create-input"></mt-field>
       <mt-field label="课程名称" v-model="course.name" placeholder="请输入课程名称" class="activity-create-input"></mt-field>
       <mt-field label="主讲教师" v-model="course.teacher" placeholder="请输入主讲教师" class="activity-create-input"></mt-field>
-      <mt-field label="上课时间" v-model="course.time" placeholder="请选择上课时间" class="activity-create-input"></mt-field>
+      <mt-field label="上课时间" v-model="course.time" 
+      @click.native="showTime('course', 'time')" placeholder="请选择上课时间" class="activity-create-input"></mt-field>
     </div>
     <div v-if="createType === 'college'">
       <mt-field label="社团名称" v-model="college.name" placeholder="请输入社团名称" class="activity-create-input"></mt-field>
@@ -93,12 +98,14 @@
       <mt-field label="公司电话" v-model="work.phone" type="pohone" placeholder="请输入公司电话" class="activity-create-input"></mt-field>
       <mt-field label="公司邮箱" v-model="work.email" type="email" placeholder="请输入公司邮箱" class="activity-create-input"></mt-field>
       <mt-field label="薪资" v-model="work.salary" type="num"placeholder="请输入薪资" class="activity-create-input"></mt-field>
-      <mt-field label="工作时间" v-model="work.job_time" placeholder="请输入工作时间" class="activity-create-input"></mt-field>
+      <mt-field label="工作时间" v-model="work.job_time" 
+      @click.native="showTime('work', 'job_time')" placeholder="请输入工作时间" class="activity-create-input"></mt-field>
       <mt-field label="公司类型" v-model="work.company_type" placeholder="请输入公司类型" class="activity-create-input"></mt-field>
       <mt-field label="工作至少时长" v-model="work.duration" placeholder="请输入至少时长" class="activity-create-input"></mt-field>
       <mt-field label="学历" v-model="work.education" placeholder="请输入学历" class="activity-create-input"></mt-field>
       <mt-field label="人数" v-model="work.amount" placeholder="请输入人数" class="activity-create-input"></mt-field>
-      <mt-field label="截止时间" v-model="work.end_time" type="time" placeholder="请输入截止时间" class="activity-create-input"></mt-field>
+      <mt-field label="截止时间" v-model="work.end_time"
+      @click.native="showTime('work','end_time')" placeholder="请输入截止时间" class="activity-create-input"></mt-field>
       <mt-field label="兼职招聘描述" v-model="work.description" placeholder="兼职招聘描述" type="textarea" rows="4" class="activity-create-input"></mt-field>
     </div>
     <div slot="footer" class="dialog-footer" style="width: 100%; margin: 15px 0;text-align: center">
@@ -110,16 +117,24 @@
 </template>
 
 <script>
+import dateTime from '../common/dateTime'
 export default {
   name: 'createPage',
+  components: {
+    'date-time-show': dateTime
+  },
   data () {
     return {
+      sh: {
+        time: false,
+        record: ''
+      },
       dialogFormVisible: false,
       createType: 'trends',
       // 活动字段
       trends: {
         name: '',
-        time: new Date(),
+        time: '',
         address: '',
         lat: '',
         lnt: '',
@@ -248,6 +263,14 @@ export default {
         positionChoice.classList.remove('active')
         _self.init()
       })
+    },
+    showTime (moduleType, character) {
+      this.sh.time = true
+      this.sh.record = moduleType + ';' + character
+    },
+    getTime (time) {
+      this.sh.time = false
+      this[this.sh.record.split(';')[0]][this.sh.record.split(';')[1]] = time
     },
     cancel: function (e) {
       e.stopPropagation()

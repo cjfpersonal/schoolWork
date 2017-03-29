@@ -6,3 +6,27 @@
     width: 15px;
     height: 15px;
 }
+.shopping-cart {
+    background-image: url(./src/shopping-cart.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+}
+.shopping-cart-info {
+    background-image: url(./src/shopping-cart-info.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+}
+.chart-logo {
+    background-image: url(./src/notice.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+}

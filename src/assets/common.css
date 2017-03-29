@@ -619,3 +619,24 @@ input[type="number"] {
     font-size: 18px;
     font-weight: 600
 }
+.hide-more-font {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis
+}
+.float-window-box {
+    width: 100%;
+    height: 200px;
+    padding: 15px 20px;
+    background: blue;
+    position: fixed
+}
+.float-window-content-box {
+    border: 1px solid red;
+    height: 100%;
+    width: 100%;
+    padding: 25px;
+}
+.anchorBL {
+    display: none !important
+}

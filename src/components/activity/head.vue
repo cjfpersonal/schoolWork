@@ -3,7 +3,7 @@
     <div class="activity-head">
       <el-row>
         <el-col :xs="8" :sm="6" :md="4" :lg="3">
-          <div class="activity-head-left" v-if="routeRecord === '/activity/index'">
+          <div class="activity-head-left" v-if="routeRecord === '/activity/index'" @click="gotoRouter($event, '/')">
             <img class='szu-logo' src='../../assets/src/szu_logo.jpg' />
             <p class="szu-logo-font">深大活动</p>
           </div>
@@ -45,6 +45,7 @@
       <p class="commonShow" @click="choiceActivity('attend')">已参与的活动</p>
     </mt-popup>
     <div class="activity-head-bottom-pop-search content-wrap" 
+    style="position: fixed; top: 60px"
     :class='{heightSearch: getActive[0]}'>
       <div class="activity-head-bottom-content">
         <i class="el-icon-search activity-head-bottom-search"></i>
@@ -55,6 +56,7 @@
       </div>
     </div>
     <div class="activity-head-bottom-pop-list content-wrap"
+    style="position: fixed; top: 60px"
     :class='{heightList: getActive[1]}'>
       <div class="activity-head-bottom-content">
         <ul class="activity-head-bottom-pop-ul">
@@ -68,7 +70,7 @@
         </ul>
       </div>
     </div>
-    <router-view :choiceActivityInfo='choiceActivityInfo'></router-view>
+    <router-view class="activity-body" :choiceActivityInfo='choiceActivityInfo'></router-view>
   </div>
 </template>
 
@@ -152,8 +154,5 @@ export default {
   width: calc(100% - 140px);
   text-align: center;
   display: inline-block
-}
-.heightList {
-  height: 420px !important
 }
 </style>
