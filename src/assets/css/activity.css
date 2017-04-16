@@ -27,7 +27,7 @@
     padding-right: 15px;
 }
 .activity-head-search {
-    padding-right: 10px;
+    padding-right: 2px;
     cursor: pointer;
     font-size: 20px
 }
@@ -87,14 +87,15 @@
 }
 .activity-detail-list-content {
     width: 100%;
-    padding: 10px 10px;
+    /*padding: 10px 10px;*/
+    height: calc(100% - 60px);
+    overflow: scroll
 }
 .trends-detail-list {
     background: white;
-    margin-bottom: 15px;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px 5px rgba(0, 0, 0, .2)
+    margin-bottom: 3px;
+    /*border-radius: 10px;*/
+    /*box-shadow: 0 0 10px 5px rgba(0, 0, 0, .2)*/
 }
 .imageDetail {
     width: 60px;
@@ -123,4 +124,25 @@
 }
 .activity-one-detail-box {
     padding: 6px 0;
+}
+.create-input {
+    width: 100%;
+    font-size: 16px;
+}
+.market-img-box {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: white;
+    padding: 5px
+}
+.market-img-box.active {
+    background: #4B99FF;
+    width: 60px;
+    height: 60px;
+}
+.market-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%
 }

@@ -34,7 +34,11 @@ module.exports = {
     proxyTable: {
       '/login':{
         target:'http://localhost:8889',
-        // target: 'http://10.10.10.17:80',
+        // target: 'http://120.25.81.158:9999',
+        changeOrigin:true
+      },
+      '/api':{
+        target:'http://120.25.81.158',
         changeOrigin:true
       }
     },

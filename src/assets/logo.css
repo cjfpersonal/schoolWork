@@ -30,3 +30,181 @@
     width: 30px;
     height: 30px;
 }
+.user-logo {
+    background-image: url(./src/login-register/user.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-block;
+    width: 25px;
+    height: 28px;
+}
+.repassword-logo {
+    background-image: url(./src/login-register/repassword.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-block;
+    width: 22px;
+    height: 28px;
+}
+.password-logo {
+    background-image: url(./src/login-register/password.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-block;
+    width: 22px;
+    height: 28px;
+}
+.email-logo {
+    background-image: url(./src/login-register/email.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-block;
+    width: 28px;
+    height: 22px;
+}
+.notice-logo {
+    background-image: url(./src/home/notice.png)
+}
+.course-logo {
+    background-image: url(./src/home/course.png)
+}
+.shop-logo {
+    background-image: url(./src/home/shop.png)
+}
+.home-logo {
+    background-image: url(./src/home/home.png)
+}
+.user-logo {
+    background-image: url(./src/home/user.png)
+}
+.notice-logo-active {
+    background-image: url(./src/home/notice-active.png)
+}
+.course-logo-active {
+    background-image: url(./src/home/course-active.png)
+}
+.shop-logo-active {
+    background-image: url(./src/home/shop-active.png)
+}
+.home-logo-active {
+    background-image: url(./src/home/home-active.png)
+}
+.user-logo-active {
+    background-image: url(./src/home/user-active.png)
+}
+.ident-small {
+    background-image: url(./src/home/user/ident-small.png)
+}
+.ident-big {
+    background-image: url(./src/home/user/ident-big.png)
+}
+.order-logo {
+    background-image: url(./src/home/user/order.png)
+}
+.foot-logo {
+    background-image: url(./src/home/user/foot.png)
+}
+.college-logo {
+    background-image: url(./src/home/user/college.png)
+}
+.logout-logo {
+    background-image: url(./src/home/user/logout.png)
+}
+.student-logo {
+    background-image: url(./src/home/user/student.png)
+}
+.input-logo {
+    background-image: url(./src/course/input.png)
+}
+.invite-logo {
+    background-image: url(./src/course/invite.png)
+}
+.info-logo {
+    background-image: url(./src/course/info.png)
+}
+.success-logo {
+    background-image: url(./src/success.png)
+}
+.add-course-logo {
+    background-image: url(./src/course/addCourse.png)
+}
+.back-course-logo {
+    background-image: url(./src/course/backCourse.png)
+}
+.local-logo {
+    background-image: url(./src/activity/local.png)
+}
+.time-logo {
+    background-image: url(./src/activity/time.png)
+}
+.money-logo {
+    background-image: url(./src/activity/money.png)
+}
+.local-logo {
+    background-image: url(./src/activity/local.png)
+}
+.attend-person-logo {
+    background-image: url(./src/activity/attend-person.png)
+}
+.total-logo {
+    background-image: url(./src/activity/total.png)
+}
+.activity-time-logo {
+    background-image: url(./src/activity/activity-time.png)
+}
+.activity-local-logo {
+    background-image: url(./src/activity/activity-local.png)
+}
+.activity-money-logo {
+    background-image: url(./src/activity/activity-money.png)
+}
+.activity-phone-active-logo {
+    background-image: url(./src/activity/activity-phone-active.png)
+}
+.wechart-logo {
+    background-image: url(./src/activity/wechart.png)
+}
+.wechart-choice-logo {
+    background-image: url(./src/activity/wechat-choce.png)
+}
+.map-logo {
+    background-image: url(./src/activity/map.png)
+}
+.go-home-active-logo {
+    background-image: url(./src/activity/go-home-active.png)
+}
+.logo-style1 {
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-block;
+    width: 28px;
+    height: 22px;
+}
+.logo-style2 {
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-block;
+    width: 22px;
+    height: 24px;
+}
+.logo-style3 {
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-block;
+    width: 22px;
+    height: 22px;
+}
+.logo-style4 {
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-block;
+    width: 40px;
+    height: 40px;   
+}
+.logo-style5 {
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-block;
+    width: 10px;
+    height: 10px;   
+}

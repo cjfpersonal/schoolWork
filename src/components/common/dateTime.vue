@@ -1,5 +1,5 @@
 <template>
-<div style="position: absolute; overflow: hidden; height: 100%; width: 100%">
+<div style="position: absolute; overflow: hidden; width: 100%">
     <mt-datetime-picker
     ref="picker"
     :startDate="new Date(1980)"

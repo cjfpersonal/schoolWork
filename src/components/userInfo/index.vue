@@ -1,25 +1,11 @@
 <template>
 <div>
-    <div class="user-head-box">
-        <el-row>
-            <el-col :xs="8" :sm="6" :md="4" :lg="3" @click.native="gotoMain">
-                <div class="activity-head-left-back">
-                    <i class="el-icon-arrow-left"></i>
-                    <span>返回</span>
-                </div>
-            </el-col>
-            <el-col :xs="8" :sm="6" :md="4" :lg="3">
-                <div class="activity-head-left-back">
-                    <span>个人信息</span>
-                </div>
-            </el-col>
-        </el-row>
-    </div>
+    <headl title="个人信息" backRouth="/home/user"></headl>
     <date-time dateType="date" :openTime="showTime" :startTime="data.birthday" v-on:time="getNewBirthday"></date-time>
     <mt-cell title="头像" is-link>
         <img :src="data.wx_head_img" class="user-head-show" />
     </mt-cell>
-    <mt-cell title="用户名" :value="data.name" is-link @click.native="change('用户名', 'name')"></mt-cell>
+    <mt-cell class="m25" title="用户名" :value="data.name" is-link @click.native="change('用户名', 'name')"></mt-cell>
     <mt-cell title="真实姓名" :value="data.realname"></mt-cell>
     <mt-cell title="学生号" :value="data.student_id"></mt-cell>
     <mt-cell title="大学" :value="data.college" is-link @click.native="change('大学', 'college')"></mt-cell>
@@ -33,11 +19,13 @@
 <script>
 import { MessageBox, Toast } from 'mint-ui'
 import dateTime from '../common/dateTime'
+import headl from '../common/head'
 
 export default {
   name: 'userInfo',
   components: {
-    'date-time': dateTime
+    'date-time': dateTime,
+    'headl': headl
   },
   data () {
     return {
@@ -61,7 +49,7 @@ export default {
   },
   methods: {
     gotoMain () {
-      this.$router.push('/')
+      this.$router.push('/home/user')
     },
     init () {
       this.data = {
@@ -96,7 +84,6 @@ export default {
       this.showTime = true
     },
     getNewBirthday (value) {
-      console.log(value)
       this.showTime = false
       this.data.birthday = value
     }
@@ -106,12 +93,12 @@ export default {
 <style>
 .user-head-box {
     background: white;
-    margin-bottom: 20px;
     box-shadow: 0 0 10px #888
 }
 .user-head-show {
     padding: 8px;
-    height: 50px;
-    width: 50px;
+    height: 90px;
+    width: 90px;
+    border-radius: 50%
 }
 </style>

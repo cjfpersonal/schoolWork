@@ -1,23 +1,33 @@
 import Vue from 'vue'
 import App from './App'
 import VueRouter from 'vue-router'
+import ElementUI from 'element-ui'
+import MintUI from 'mint-ui'
+
 import './assets/base.css'
 import './assets/common.css'
 import './assets/logo.css'
-import MintUI from 'mint-ui'
 import 'mint-ui/lib/style.css'
-import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
+
 import './assets/js/common'
+import './assets/js/server'
+
 // 0. 如果使用模块化机制编程， 要调用 Vue.use(VueRouter)
 Vue.use(VueRouter)
 Vue.use(ElementUI)
 Vue.use(MintUI)
 // 1. 定义（路由）组件。
 // 可以从其他文件 import 进来
-import home from './components/home'
+// import home from './components/home'
+import homeList from './components/home/home'
+import homeUser from './components/home/user'
 
 import userInfo from './components/userInfo/index'
+import userDetail from './components/common/userInfo'
+import userChoice from './components/userInfo/choiceLogin'
+import userLogin from './components/userInfo/login'
+import userRegister from './components/userInfo/register'
 
 import noticeHome from './components/notice/home'
 import noticeIndex from './components/notice/index'
@@ -28,12 +38,21 @@ import courseHome from './components/course/home'
 import courseIndex from './components/course/index'
 import courseCreate from './components/course/create'
 import courseDetail from './components/course/detail'
+import courseUpload from './components/course/upload'
+import successCourse from './components/course/addSuccess'
 
-import activityHead from './components/activity/head'
+import collegeHome from './components/college/home'
+import collegeIndex from './components/college/index'
+import collegeCreate from './components/college/create'
+import collegeDetail from './components/college/detail'
+
+import activityHome from './components/activity/home'
 import activityIndex from './components/activity/index'
 import activityCreate from './components/activity/create'
 import activityDetail from './components/activity/detail'
 import activityoneDetail from './components/activity/oneDetail'
+import activityDecideAttend from './components/activity/decideAttend'
+import successActivity from './components/activity/addSuccess'
 
 import tradeIndex from './components/app_second_trade/index'
 import tradeHead from './components/app_second_trade/head'
@@ -48,9 +67,23 @@ import tradeCar from './components/app_second_trade/shopping-car'
 // 或者，只是一个组件配置对象。
 // 我们晚点再讨论嵌套路由。
 const routes = [
-  { path: '/', redirect: '/home' },
-  { path: '/home', component: home },
+  { path: '/', redirect: '/beforeLogin' },
+  { path: '/home',
+    component: homeList,
+    children: [
+      { path: '', redirect: 'activity' },
+      { path: 'activity', component: activityIndex },
+      { path: 'user', component: homeUser },
+      { path: 'course', component: courseIndex },
+      { path: 'notice', component: noticeIndex },
+      { path: 'trade', component: tradeIndex }
+    ]
+  },
+  { path: '/user/detail/:id', component: userDetail },
   { path: '/userInfo', component: userInfo },
+  { path: '/login', component: userLogin },
+  { path: '/beforeLogin', component: userChoice },
+  { path: '/register', component: userRegister },
   { path: '/notice',
     component: noticeHome,
     children: [
@@ -66,18 +99,31 @@ const routes = [
       { path: '', redirect: 'index' },
       { path: 'index', component: courseIndex },
       { path: 'create', component: courseCreate },
-      { path: 'detail/:id', component: courseDetail }
+      { path: 'detail/:id', component: courseDetail },
+      { path: 'addsuccess/:id', component: successCourse },
+      { path: 'upload/:id', component: courseUpload }
+    ]
+  },
+  { path: '/college',
+    component: collegeHome,
+    children: [
+      { path: '', redirect: 'index' },
+      { path: 'index', component: collegeIndex },
+      { path: 'create', component: collegeCreate },
+      { path: 'detail/:id', component: collegeDetail }
     ]
   },
   { path: '/tradeIndex', component: tradeIndex },
   { path: '/activity',
-    component: activityHead,
+    component: activityHome,
     children: [
       { path: '', redirect: 'index' },
       { path: 'index', component: activityIndex },
-      { path: ':type', component: activityDetail },
-      { path: ':type/create', component: activityCreate },
-      { path: ':type/:id', component: activityoneDetail }
+      { path: 'detail', component: activityDetail },
+      { path: 'create', component: activityCreate },
+      { path: 'detail/:id', component: activityoneDetail },
+      { path: 'decide/:id', component: activityDecideAttend },
+      { path: 'addsuccess/:id', component: successActivity }
     ]
   },
   { path: '/shopping',
@@ -101,7 +147,6 @@ const router = new VueRouter({
 
 // 4.路由拦截器，对http协议的状态拦截
 router.beforeEach((to, from, next) => {
-  // console.log(to, from)
   next()
 })
 // 5. 创建和挂载根实例。

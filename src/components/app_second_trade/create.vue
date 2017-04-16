@@ -1,6 +1,6 @@
 <template>
 <div style="margin-bottom: 70px; width: 100%; overflow: hidden">
-  <choice-popup :decideShow="decideShow" :dataChoice="typeChoice" v-on:eee="getChoce"></choice-popup>
+  <choice-popup :decideShow="decideShow" :dataChoice="typeChoice" v-on:get="getChoce"></choice-popup>
     <mt-field label="商品名称" v-model="data.shopName" placeholder="请输入商品名称" class="activity-create-input"></mt-field>
     <mt-field label="商品数量" v-model="data.shopNumber" type="num" placeholder="请输入商品数量" class="activity-create-input"></mt-field>
     <mt-field label="商品价格" v-model="data.shopPrice" type="num" placeholder="请输入商品价格" class="activity-create-input"></mt-field>

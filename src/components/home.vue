@@ -8,11 +8,11 @@
           <li @click="gotoRouter($event, '/userInfo')">用户信息</li>
           <li @click="gotoRouter($event, '/notice')">公告信息</li>
           <li @click="gotoRouter($event, '/activity')">活动项目</li>
-          <li @click="gotoRouter($event, '/tradeIndex')">课程共享</li>
-          <li @click="gotoRouter($event, '/course')">加入社团</li>
+          <li @click="gotoRouter($event, '/course')">课程共享</li>
+          <li @click="gotoRouter($event, '/college')">加入社团</li>
           <li @click="gotoRouter($event, '/food')">饮食推荐</li>
           <li @click="gotoRouter($event, '/shopping')">二次商品</li>
-          <li @click="gotoRouter($event, '/shoping')" style="color:red">注销</li>
+          <li @click="gotoRouter($event, '/beforeLogin')" style="color:red">注销</li>
         </ul>
     </div>
 </div>

@@ -1,8 +1,4 @@
 import Vue from 'vue'
-import VueResource from 'vue-resource'
-import { Toast } from 'mint-ui'
-
-Vue.use(VueResource)
 
 Vue.filter('time', function (value) {
   let date = new Date(value)
@@ -62,54 +58,9 @@ Vue.filter('maxLength', function (value) {
     return value
   }
 })
-Vue.prototype.getHttp = function (url) {
-  let _self = this
-  return new Promise(function (resolve) {
-    _self.$http.get(url).then(function (response) {
-      return response.json()
-    }).then(function (data) {
-      if (data.status === 0) {
-        resolve(data.data)
-      } else {
-        Toast({
-          message: '操作失败',
-          iconClass: 'el-icon-circle-cross'
-        })
-        return false
-      }
-    }).catch(function () {
-      Toast({
-        message: '服务爆炸',
-        iconClass: 'el-icon-circle-cross'
-      })
-      return false
-    })
-  })
-}
-Vue.prototype.postHttp = function (url, data) {
-  let _self = this
-  return new Promise(function (resolve) {
-    _self.$http.post(url, data).then(function (response) {
-      return response.json()
-    }).then(function (data) {
-      if (data.status === 0) {
-        resolve(data)
-      } else {
-        Toast({
-          message: '操作失败',
-          iconClass: 'el-icon-circle-cross'
-        })
-        return false
-      }
-    }).catch(function () {
-      Toast({
-        message: '服务爆炸',
-        iconClass: 'el-icon-circle-cross'
-      })
-      return false
-    })
-  })
-}
+/**
+ * @description 点击增加覆盖物
+ */
 Vue.prototype.ComplexCustomOverlay = function (point, text) {
   this._point = point
   this._text = text
@@ -118,16 +69,62 @@ Vue.prototype.ComplexCustomOverlay.prototype = new window.BMap.Overlay()
 Vue.prototype.ComplexCustomOverlay.prototype.initialize = function (map) {
   this._map = map
   if (document.getElementsByClassName('float-window-box')[0]) {
-    document.getElementsByClassName('float-window-box')[0].remove()
+    document.getElementsByClassName('float-window-box')[0].classList.remove('active')
+    setTimeout(function () {
+      document.getElementsByClassName('float-window-box')[0].remove()
+    }, 500)
   }
-  var div = this._div = document.createElement('div')
+  let div = this._div = document.createElement('div')
   div.classList.add('float-window-box')
+  let content = '<div class="float-window-content-box">' +
+  '<button class="more-list" id="more">更多</button><button class="detail-btn">详情</button>' +
+  '<span>' + this._text.name + '</span>' +
+  '</div>'
+  setTimeout(function () {
+    document.getElementById('more').addEventListener('touchstart', function (e) {
+      e.stopPropagation()
+    })
+  })
   div.style.zIndex = window.BMap.Overlay.getZIndex(this._point.lat)
-  div.appendChild(document.createTextNode(this._text.name))
+  div.innerHTML = content
   map.getPanes().labelPane.appendChild(div)
   return div
 }
 Vue.prototype.ComplexCustomOverlay.prototype.draw = function () {
-  this._div.style.left = 0 + 'px'
-  this._div.style.bottom = 0 + 'px'
+  this._div.style.position = 'fixed'
+  this._div.style.left = 0
+  let _self = this
+  if (document.getElementsByClassName('float-window-box')[0]) {
+    setTimeout(function () {
+      _self._div.classList.add('active')
+    }, 500)
+  } else {
+    _self._div.classList.add('active')
+  }
+}
+/**
+ * @description 初始化market
+ */
+Vue.prototype.InitMarket = function (point, myIcon) {
+  this._point = point
+  this._icon = myIcon
+}
+Vue.prototype.InitMarket.prototype = new window.BMap.Overlay()
+Vue.prototype.InitMarket.prototype.initialize = function (map) {
+  this._map = map
+  let div = this._div = document.createElement('div')
+  div.classList.add('market-img-box')
+  div.innerHTML = '<img class="market-img" src="' + this._icon + '" />'
+  map.getPanes().labelPane.appendChild(div)
+  return div
+}
+Vue.prototype.InitMarket.prototype.draw = function () {
+  let map = this._map
+  let point = this._point
+  var bounds = map.getBounds()
+  var sw = bounds.getSouthWest()
+  var ne = bounds.getNorthEast()
+  console.log(sw, ne)
+  console.log(point.lng, point.lat)
+  map.pointToOverlayPixel(new window.BMap.Point(point.lng, point.lat))
 }

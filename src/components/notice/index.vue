@@ -1,6 +1,6 @@
 <template>
 <div>
-    <headl :bar='true' :search="true" title="公告信息" backRouth="/" :barContent="barContent"></headl>
+    <headl :bar='true' :search="true" title="公告信息" backRouth="/home" :barContent="barContent"></headl>
     <el-row>
         <el-col :xs="8" class="tab-choice active">全部</el-col>
         <el-col :xs="8" class="tab-choice">公告</el-col>

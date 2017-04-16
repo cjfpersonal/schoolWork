@@ -1,6 +1,6 @@
 <template>
-  <div id="activityIndex">
-    <div class="activity-head">
+  <div id="activityIndex" class="a100">
+    <!--<div class="activity-head">
       <el-row>
         <el-col :xs="8" :sm="6" :md="4" :lg="3">
           <div class="activity-head-left" v-if="routeRecord === '/activity/index'" @click="gotoRouter($event, '/')">
@@ -69,8 +69,8 @@
           <li @click="gotoRouter($event, '/activity')" v-if="routeRecord !== '/activity/index'">返回活动</li>
         </ul>
       </div>
-    </div>
-    <router-view class="activity-body" :choiceActivityInfo='choiceActivityInfo'></router-view>
+    </div>-->
+    <router-view></router-view>
   </div>
 </template>
 
@@ -137,22 +137,5 @@ export default {
 </script>
 
 <style>
-.headPop {
-  height: 60px;
-  line-height: 60px;
-  font-size: 16px;
-  padding: 0 10px;
-  border-bottom: 1px solid rgba(0, 0, 0, .3)
-}
-.gobackHead {
-  width: 70px;
-  display: inline-block
-}
-.head-title {
-  font-size: 18px;
-  font-weight: 600;
-  width: calc(100% - 140px);
-  text-align: center;
-  display: inline-block
-}
+
 </style>

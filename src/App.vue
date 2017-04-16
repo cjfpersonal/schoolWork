@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <chart :showChartChoice="showChartChoice" title="活动聊天" v-on:back="hideChart"></chart>
-    <i v-if="!showChartChoice" class="chart-logo right-bottom" @click="showChart"></i>
+    <i v-if="!showChartChoice&&checkRoute" class="chart-logo right-bottom" @click="showChart"></i>
     <router-view></router-view>
   </div>
 </template>
@@ -15,7 +15,15 @@ export default {
   },
   data () {
     return {
-      showChartChoice: false
+      showChartChoice: false,
+      checkRoute: true
+    }
+  },
+  created () {
+    let path = this.$route.path
+    console.log(path)
+    if (path === '/login' || path === '/register' || path === '/beforeLogin') {
+      this.checkRoute = false
     }
   },
   methods: {

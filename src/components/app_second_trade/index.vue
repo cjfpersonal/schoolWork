@@ -1,5 +1,6 @@
 <template>
 <div>
+  <!--<headl title="商品交易" backRouth="/home/user"></headl>-->
   <mt-search style="height: auto"
     v-model="data.shopName"
     cancel-text="取消"
@@ -50,8 +51,12 @@
 </template>
 
 <script>
+import headl from '../common/head'
 export default {
   name: 'heaPage',
+  components: {
+    'headl': headl
+  },
   data () {
     return {
       getChoice: [false, false],
@@ -86,10 +91,14 @@ export default {
       let oBj = this.data
       let _self = this
       _self.getChoice = [false, false]
-      _self.getHttp('/login/search/user?shopName=' + oBj.shopName +
-       '&shopType=' + oBj.shopType + '&priceStart=' + oBj.priceStart).then(function (data) {
-         _self.items = data
-         _self.imgResize()
+      _self.$http.get('/login/search/user?shopName=' + oBj.shopName +
+       '&shopType=' + oBj.shopType + '&priceStart=' + oBj.priceStart).then(function (response) {
+         return response.json()
+       }).then(function (data) {
+         if (data.status === 0) {
+           _self.items = data.data
+           _self.imgResize()
+         }
        })
     },
     imgResize () {
