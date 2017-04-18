@@ -24,6 +24,25 @@ export default {
       map.centerAndZoom(point, 16.5) // 启用城市名称作为中心
       map.enableScrollWheelZoom(true) // 启用滚轮放大
       map.enableDragging()
+      /**
+       * @description 初始化自己位置
+       */
+      let geolocation = new window.BMap.Geolocation()
+      geolocation.getCurrentPosition(function (r) {
+        if (this.getStatus() === window.BMAP_STATUS_SUCCESS) {
+          // var mk = new window.BMap.Marker(r.point)
+          // map.addOverlay(mk)
+          // map.panTo(r.point)
+          console.log(r)
+          alert(r.point.longitude)
+          var mine = new window.BMap.Marker(r.point)
+          map.addOverlay(mine)
+          var label = new window.BMap.Label('我在这哦', {offset: new window.BMap.Size(20, -10)})
+          mine.setLabel(label)
+        } else {
+          alert('failed' + this.getStatus())
+        }
+      }, {enableHighAccuracy: true})
       _self.getHttp('/api/active/list?page=1').then(function (data) {
         let pointArray = [{
           lng: 113.93976962708149,
@@ -58,20 +77,19 @@ export default {
         }]
         pointArray.forEach(function (item, index) {
           let icon = data.actives.data[index].poster
-
           let point = new window.BMap.Point(item.lng, item.lat)
           let marker = new _self.InitMarket(point, icon)
-
-          item.content = data.actives.data[index]
-          marker.addEventListener('click', function (e) {
-            window.event ? window.event.cancelBubble = true : e.stopPropagation()
-            let myCompOverlay = new _self.ComplexCustomOverlay(point, item.content)
-            map.addOverlay(myCompOverlay)
-          })
           map.addOverlay(marker)
+          let dom = document.getElementsByClassName('market-img-box')
+          dom[index].addEventListener('touchstart', function (e) {
+            console.log(345678654)
+          })
         })
         map.addEventListener('touchmove', _self.positionChoice)
       })
+    },
+    test () {
+      console.log(678)
     }
   }
 }

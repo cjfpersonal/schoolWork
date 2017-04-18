@@ -32,7 +32,7 @@
     </div>
   </div>
   <div class='manage-trade-shop-box clearfix'>
-    <el-row v-for="(item, index) in items" v-if='items.length>0'
+    <el-row v-for="(item, index) in items" :key="index" v-if="items.length>0"
       class="manage-trade-content-box">
       <el-col :xs="4" style="line-height: 60px; text-align: center">
         <el-checkbox class="radio" v-model="choiceShop[index]"></el-checkbox>

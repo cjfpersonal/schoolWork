@@ -134,7 +134,8 @@
     height: 50px;
     border-radius: 50%;
     background: white;
-    padding: 5px
+    padding: 5px;
+    position: relative
 }
 .market-img-box.active {
     background: #4B99FF;

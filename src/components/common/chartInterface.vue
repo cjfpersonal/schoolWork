@@ -7,7 +7,7 @@
             <span @click="goback" class="chart-back">退出</span>
             {{title}}
             </h1>
-        <el-row v-for="item in data" class="chart-list-box" @click.native="showDetail(item)">
+        <el-row v-for="(item, index) in data" :key="index" class="chart-list-box" @click.native="showDetail(item)">
             <el-col :xs="5">
                 <img :src="item.img" class="chart-list-img" />                
             </el-col>
@@ -23,7 +23,7 @@
             {{recordTitle}}
         </h1>
         <div class="chart-detail-box" id="chartScroll">
-            <el-row v-for="content in chartContent" class="m25">
+            <el-row v-for="(content, index) in chartContent" :key="index" class="m25">
                 <el-col :xs="4" style="text-align: center" v-if="content.role !== 'me'">
                     <img :src="content.img" class="chart-list-img" />                
                 </el-col>

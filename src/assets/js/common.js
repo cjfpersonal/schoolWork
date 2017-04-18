@@ -105,7 +105,7 @@ Vue.prototype.ComplexCustomOverlay.prototype.draw = function () {
 /**
  * @description 初始化market
  */
-Vue.prototype.InitMarket = function (point, myIcon) {
+Vue.prototype.InitMarket = function (point, myIcon, index) {
   this._point = point
   this._icon = myIcon
 }
@@ -120,11 +120,12 @@ Vue.prototype.InitMarket.prototype.initialize = function (map) {
 }
 Vue.prototype.InitMarket.prototype.draw = function () {
   let map = this._map
-  let point = this._point
-  var bounds = map.getBounds()
-  var sw = bounds.getSouthWest()
-  var ne = bounds.getNorthEast()
-  console.log(sw, ne)
-  console.log(point.lng, point.lat)
-  map.pointToOverlayPixel(new window.BMap.Point(point.lng, point.lat))
+  let pixel = map.pointToOverlayPixel(this._point)
+  if (map.getZoom() >= 14) {
+    this._div.style.left = pixel.x - 36 + 'px'
+    this._div.style.top = pixel.y - 74 + 'px'
+  } else {
+    this._div.style.left = pixel.x - 18 + 'px'
+    this._div.style.top = pixel.y - 37 + 'px'
+  }
 }

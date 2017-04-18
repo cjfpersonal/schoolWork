@@ -34,6 +34,7 @@
   </div>
   <div class='all-trade-shop-box clearfix'>
     <div v-for="(item, index) in items" v-if='items.length>0'
+      @click="gotoRouter($event, '/shopping/manage/' + item._id)"
       class="trade-content-box">
       <img :src="item.shopPicture" class="trade-picture" />
       <div class="trade-description-box">
@@ -123,6 +124,10 @@ export default {
         }
       })
       _self.$set(_self.getChoice, index, !_self.getChoice[index])
+    },
+    gotoRouter (e, path) {
+      e.stopPropagation()
+      this.$router.push(path)
     }
   }
 }
