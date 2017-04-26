@@ -1,13 +1,13 @@
 <template>
 <div class="a100">
-  <headl :choice="choice" :search="true" title="活动信息" backRouth="/home/user"></headl>
+  <!--<headl :choice="choice" :search="true" title="活动信息" backRouth="/home/user"></headl>-->
   <div class="activity-detail-list-content"
     v-on:scroll='scrollData'>
         <div v-for="data in active.data"
         style="padding: 15px 5px; background: white"
         class="trends-detail-list clearfix" @click="gotoRouter($event, '/activity/detail/' + data.id)">
         <el-row>
-          <el-col :xs="10" style="text-align: center;">
+          <el-col :xs="10" style="text-align: center;min-height:120px">
             <img :src="data.poster" style="min-height:120px;width: 90%" />
           </el-col>
           <el-col :xs="14" style="height: 120px;">
@@ -31,8 +31,9 @@
               </div>
           </el-col>
         </el-row>
-        </div>
+      </div>
     </div>
+    <p class="create-activity" @click="gotoRouter($event, '/activity/create')">发布活动</p>
   </div>
 </template>
 

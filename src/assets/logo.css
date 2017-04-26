@@ -152,6 +152,9 @@
 .activity-time-logo {
     background-image: url(./src/activity/activity-time.png)
 }
+.activity-list-logo {
+    background-image: url(./src/activity/activity-list.png)
+}
 .activity-local-logo {
     background-image: url(./src/activity/activity-local.png)
 }
@@ -172,6 +175,9 @@
 }
 .go-home-active-logo {
     background-image: url(./src/activity/go-home-active.png)
+}
+.activity-list-logo {
+    background-image: url(./src/activity/activity-list.png)
 }
 .logo-style1 {
     background-repeat: no-repeat;
@@ -207,4 +213,65 @@
     display: inline-block;
     width: 10px;
     height: 10px;   
+}
+/* 活动详情logo */
+.activity-style1 {
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-block;
+    margin-right: 3px;
+    width: 10px;
+    height: 10px;
+}
+.activity-style2 {
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-block;
+    margin-right: 3px;
+    width: 9px;
+    height: 10px;
+}
+.activity-style3 {
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-block;
+    margin-right: 3px;
+    width: 8px;
+    height: 10px;
+}
+/* 主页下方的logo */
+.home-style1 {
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-block;
+    width: 33px;
+    height: 30px; 
+}
+.home-style2 {
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-block;
+    width: 40px;
+    height: 30px; 
+}
+.home-style3 {
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-block;
+    width: 36px;
+    height: 30px; 
+}
+.home-style4 {
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-block;
+    width: 26px;
+    height: 30px; 
+}
+.home-style5 {
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-block;
+    width: 29px;
+    height: 30px; 
 }

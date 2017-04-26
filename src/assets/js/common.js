@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import 'element-ui/lib/theme-default/index.css'
 
 Vue.filter('time', function (value) {
   let date = new Date(value)
@@ -61,47 +62,41 @@ Vue.filter('maxLength', function (value) {
 /**
  * @description 点击增加覆盖物
  */
-Vue.prototype.ComplexCustomOverlay = function (point, text) {
+Vue.prototype.ComplexCustomOverlay = function (point, content) {
   this._point = point
-  this._text = text
+  this._content = content
 }
 Vue.prototype.ComplexCustomOverlay.prototype = new window.BMap.Overlay()
 Vue.prototype.ComplexCustomOverlay.prototype.initialize = function (map) {
   this._map = map
-  if (document.getElementsByClassName('float-window-box')[0]) {
-    document.getElementsByClassName('float-window-box')[0].classList.remove('active')
-    setTimeout(function () {
-      document.getElementsByClassName('float-window-box')[0].remove()
-    }, 500)
-  }
-  let div = this._div = document.createElement('div')
-  div.classList.add('float-window-box')
-  let content = '<div class="float-window-content-box">' +
-  '<button class="more-list" id="more">更多</button><button class="detail-btn">详情</button>' +
-  '<span>' + this._text.name + '</span>' +
-  '</div>'
-  setTimeout(function () {
-    document.getElementById('more').addEventListener('touchstart', function (e) {
-      e.stopPropagation()
-    })
-  })
-  div.style.zIndex = window.BMap.Overlay.getZIndex(this._point.lat)
+  let div = document.createElement('div')
+  div.classList.add('float-content-box')
+  let data = this._content
+  let content = '<div class="el-row">' +
+          '<div class="el-col el-col-24 el-col-xs-10" style="text-align: center;">' +
+            '<img src="' + data.poster + '" style="min-height:90px;width: 90%" />' +
+          '</div>' +
+          '<div class="el-col el-col-24 el-col-xs-14" style="height: 90px;line-height: 22px">' +
+              '<div class="content-right-box">' +
+                '<p class="activity-main-title">' + data.name + '</p>' +
+                '<p>' +
+                  '<i class="time-logo activity-style1"></i>' +
+                  '<span>时间:</span><span>' + data.time + '</span></p>' +
+                '<p>' +
+                  '<i class="local-logo activity-style2"></i>' +
+                  '<span>地址:</span><span>' + data.address + '</span></p>' +
+                '<p>' +
+                  '<i class="money-logo activity-style3"></i>' +
+                  '<span>费用:</span><span>' + data.money + '</span></p>' +
+              '</div>' +
+          '</div></div>'
   div.innerHTML = content
   map.getPanes().labelPane.appendChild(div)
   return div
 }
 Vue.prototype.ComplexCustomOverlay.prototype.draw = function () {
-  this._div.style.position = 'fixed'
-  this._div.style.left = 0
-  let _self = this
-  if (document.getElementsByClassName('float-window-box')[0]) {
-    setTimeout(function () {
-      _self._div.classList.add('active')
-    }, 500)
-  } else {
-    _self._div.classList.add('active')
-  }
 }
+
 /**
  * @description 初始化market
  */
@@ -114,18 +109,18 @@ Vue.prototype.InitMarket.prototype.initialize = function (map) {
   this._map = map
   let div = this._div = document.createElement('div')
   div.classList.add('market-img-box')
-  div.innerHTML = '<img class="market-img" src="' + this._icon + '" />'
+  div.innerHTML = '<img class="market-img" src="' + this._icon + '" /><span class="triangle"></span>'
   map.getPanes().labelPane.appendChild(div)
   return div
 }
 Vue.prototype.InitMarket.prototype.draw = function () {
   let map = this._map
   let pixel = map.pointToOverlayPixel(this._point)
-  if (map.getZoom() >= 14) {
-    this._div.style.left = pixel.x - 36 + 'px'
-    this._div.style.top = pixel.y - 74 + 'px'
+  if (this._div.classList.contains('active') === false) {
+    this._div.style.left = pixel.x - 26 + 'px'
+    this._div.style.top = pixel.y - 60 + 'px'
   } else {
-    this._div.style.left = pixel.x - 18 + 'px'
-    this._div.style.top = pixel.y - 37 + 'px'
+    this._div.style.left = pixel.x - 31 + 'px'
+    this._div.style.top = pixel.y - 72 + 'px'
   }
 }

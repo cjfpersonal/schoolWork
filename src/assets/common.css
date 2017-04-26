@@ -316,8 +316,7 @@
 
 input[type="text"],
 input[type="number"],
-input[type="tel"],
-input[type="password"] {
+input[type="tel"] {
     min-height: 30px;
     line-height: inherit;
     border: 1px solid #cccccc;

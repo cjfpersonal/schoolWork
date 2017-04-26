@@ -51,11 +51,24 @@ Vue.prototype.postHttp = function (url, data) {
         })
         return false
       }
-    }).catch(function () {
-      Toast({
-        message: '服务爆炸',
-        iconClass: 'el-icon-circle-cross'
-      })
+    }).catch(function (data) {
+      if (data.status === 422) {
+        let description = ''
+        if (data.body.length > 0) return
+        for (let key in data.body) {
+          description = data.body[key][0]
+          break
+        }
+        Toast({
+          message: description,
+          iconClass: 'el-icon-circle-cross'
+        })
+      } else {
+        Toast({
+          message: '服务爆炸',
+          iconClass: 'el-icon-circle-cross'
+        })
+      }
       return false
     })
   })

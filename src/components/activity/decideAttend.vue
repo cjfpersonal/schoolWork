@@ -1,6 +1,6 @@
 <template>
   <div class="a100" style="background: #f3f4f3">
-    <headl title="活动详情" :backRouth="'/activity/detail/'+data.id"></headl>
+    <!--<headl title="活动详情" :backRouth="'/activity/detail/'+data.id"></headl>-->
     <div class="activity-head-box">
       <h3 class="acitivity-head-name">{{data.name}}</h3>
     </div>

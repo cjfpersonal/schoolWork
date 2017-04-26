@@ -4,13 +4,17 @@
     <el-row>
         <el-col :offset="2" :xs="20" class="input-box">
             <i class="user-logo login-logo-local"></i>
-            <input class="login-input-all" />
+            <input class="login-input-all" 
+            v-model="data.username"
+            placeholder="请输入账号"/>
         </el-col>
     </el-row>
     <el-row style="margin-top: 10px">
         <el-col :offset="2" :xs="20" class="input-box clearfix">
             <i class="repassword-logo login-logo-local"></i>
-            <input class="login-input-all" />
+            <input class="login-input-all" 
+            v-model="data.password"
+            placeholder="请输入密码" />
             <span class="forget-password">忘记密码</span>
         </el-col>
     </el-row>
@@ -30,12 +34,24 @@ import '../../assets/css/login.css'
 export default {
   name: 'login',
   data () {
-    return {}
+    return {
+      data: {
+        password: '',
+        username: ''
+      }
+    }
   },
   methods: {
-    gotoRouter: function (e, value) {
+    gotoRouter (e, value) {
       e.stopPropagation()
       this.$router.push(value)
+    },
+    login (e) {
+      let url = '/api/user/login'
+      let _self = this
+      _self.postHttp(url, _self.data).then(function (data) {
+        console.log(data)
+      })
     }
   }
 }

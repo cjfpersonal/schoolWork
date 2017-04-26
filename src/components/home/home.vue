@@ -1,25 +1,25 @@
 <template>
 <div class="a100 clearfix">
-    <router-view style="padding-bottom: 50px;height: auto"></router-view>
+    <router-view style="height: calc(100% - 60px);overflow: scroll"></router-view>
     <el-row class="home-head">
       <el-col class="home-list" :class="{'active': choiceIndex===0}" v-on:click.native="chooseHome($event, 0)">
-        <i class="logo-style1" :class="{'home-logo-active': choiceIndex===0,'home-logo': choiceIndex!=0}"></i>
+        <i class="home-style1" :class="{'home-logo-active': choiceIndex===0,'home-logo': choiceIndex!=0}"></i>
         <p>主页</p>
       </el-col>
       <el-col class="home-list" :class="{'active': choiceIndex===1}" v-on:click.native="chooseHome($event, 1)">
-        <i class="logo-style1"  :class="{'course-logo-active': choiceIndex===1,'course-logo': choiceIndex!=1}"></i>
+        <i class="home-style2"  :class="{'course-logo-active': choiceIndex===1,'course-logo': choiceIndex!=1}"></i>
         <p>课程</p>
       </el-col>
       <el-col class="home-list" :class="{'active': choiceIndex===2}" v-on:click.native="chooseHome($event, 2)">
-        <i class="logo-style1"  :class="{'notice-logo-active': choiceIndex===2,'notice-logo': choiceIndex!=2}"></i>
+        <i class="home-style3"  :class="{'notice-logo-active': choiceIndex===2,'notice-logo': choiceIndex!=2}"></i>
         <p>公告</p>
       </el-col>
       <el-col class="home-list" :class="{'active': choiceIndex===3}" v-on:click.native="chooseHome($event, 3)">
-        <i class="logo-style1"  :class="{'shop-logo-active': choiceIndex===3,'shop-logo': choiceIndex!=3}"></i>
+        <i class="home-style4"  :class="{'shop-logo-active': choiceIndex===3,'shop-logo': choiceIndex!=3}"></i>
         <p>二手市场</p>
       </el-col>
       <el-col class="home-list" :class="{'active': choiceIndex===4}" v-on:click.native="chooseHome($event, 4)">
-        <i class="logo-style1"  :class="{'user-logo-active': choiceIndex===4,'user-logo': choiceIndex!=4}"></i>
+        <i class="home-style5"  :class="{'user-logo-active': choiceIndex===4,'user-logo': choiceIndex!=4}"></i>
         <p>我的</p>
       </el-col>
     </el-row>
@@ -59,7 +59,8 @@ export default {
 .home-head {
   position: fixed;
   bottom: 0;
-  width: 100%
+  width: 100%;
+  box-shadow: 0 0 10px #888
 }
 .home-list {
   width: 20%;

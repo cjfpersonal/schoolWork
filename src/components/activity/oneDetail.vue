@@ -1,7 +1,7 @@
 <template>
   <div class="a100" style="background: #f3f4f3">
-    <headl title="活动详情" backRouth="/activity/detail"></headl>
-    <img :src="data.poster" style="width: 100%" />
+    <!--<headl title="活动详情" backRouth="/activity/detail"></headl>-->
+    <img :src="data.poster" style="width: 100%;min-height: 200px" />
     <div class="activity-head-box">
       <h3 class="acitivity-head-name">{{data.name}}</h3>
       <p class="acitivity-head-des">报名{{data.person}}人  剩余{{data.count - data.person}}人</p>

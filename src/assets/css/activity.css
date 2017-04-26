@@ -135,15 +135,118 @@
     border-radius: 50%;
     background: white;
     padding: 5px;
-    position: relative
+    position: absolute;
+    transition: all .5s
 }
 .market-img-box.active {
     background: #4B99FF;
     width: 60px;
     height: 60px;
+    z-index: 100;
+    top: -15px;
+    transition: all .5s
 }
 .market-img {
     width: 100%;
     height: 100%;
     border-radius: 50%
+}
+.active .triangle {
+    border: 18px solid #000;
+    border-color:#4B99FF transparent transparent transparent;
+    top: 54px;
+    left: 12px;
+    transition: all .5s
+}
+.triangle {
+    border:15px solid #000; 
+    border-color:white transparent transparent transparent;
+    position: absolute;
+    top: 45px;
+    left: 10px;
+    transition: all .5s
+}
+.float-content-box {
+    padding: 15px 5px;
+    background: white;
+    position: fixed;
+    bottom: 60px;
+    left: 0;
+    width: calc(100% - 30px);
+    margin-left: 15px;
+    border-radius: 10px;
+    z-index: 101;
+    display: none
+}
+.float-content-box.active {
+    display: block
+}
+.activity-logo-box {
+    background: white;
+    padding: 12px;
+    border-radius: 7px;
+    position: fixed;
+    right: 0;
+    top: 150px;
+}
+.activity-list-box {
+    height: 55px;
+    width: 100%;
+}
+.activity-list-activity {
+    width: 50%;
+    font-size: 14px;
+    text-align: center;
+    line-height: 55px;
+    color: #A0A0A0;
+    font-weight: 700;
+    float: left;
+    background: white;
+    position: relative
+}
+.activity-list-activity:nth-child(1) {
+    border-right: 1px solid rgba(0, 0, 0, .1);
+}
+.activity-list-activity::before {
+    position: absolute;
+    content: '';
+    left: 50%;
+    height: 5px;
+    transition: all .3s;
+    width: 0;
+    bottom: 0;
+}
+.activity-list-activity.active::before {
+    width: 50%;
+    transition: all .3s;
+    background: #4B99FF
+}
+.activity-list-activity::after {
+    position: absolute;
+    content: '';
+    transition: all .3s;
+    right: 50%;
+    width: 0;
+    height: 5px;
+    bottom: 0
+}
+.activity-list-activity.active::after {
+    width: 50%;
+    transition: all .3s;
+    background: #4B99FF
+}
+.activity-list-activity.active {
+    color: #272727
+}
+.create-activity {
+    position: fixed;
+    height: 60px;
+    width: 100%;
+    font-size: 16px;
+    font-weight: 700;
+    box-shadow: 0 0 10px #888;
+    background: #4B99FF;
+    color: white;
+    line-height: 60px;
+    text-align: center
 }
