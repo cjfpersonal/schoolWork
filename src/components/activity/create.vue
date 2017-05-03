@@ -1,9 +1,9 @@
 <template>
-  <div style="overflow-x: hidden;font-size: 16px">
-    <headl title="发布活动" backRouth="/activity/detail"></headl>
+  <div style="overflow-x: hidden;font-size: 16px;height: calc(100% - 55px)">
+    <!--<headl title="发布活动" backRouth="/activity/detail"></headl>-->
     <date-time-show v-on:time="getTime" :startTime="''" dateType="datetime" :openTime='sh.time'></date-time-show>
     <div id="positionChoice"></div>
-    <div>
+    <div class="a100">
       <el-row class="show-list-box" style="height: 60px;line-height: 60px">
        <el-col :xs="4" style="text-align: center">
          <i class="input-logo logo-style2" style="transform: translateY(25%)"></i>
@@ -14,8 +14,10 @@
      </el-row>
     <el-row class="poster-box">
       <el-col :offset="2" :xs="16" class="poster-des line60">活动海报</el-col>
-      <el-col :xs="6" style="height: 60px">
-        <span class="img-replace"></span>
+      <el-col :xs="6" style="height: 60px;position: relative">
+        <span class="img-replace" v-if="data.poster===''"></span>
+        <img class="img-replace" v-if="data.poster!==''" :src="data.poster" />
+        <input type="file" class="file-upload" v-on:change="upload($event)" />
       </el-col>
     </el-row>
       <el-row class="show-list-box" style="height: 60px;line-height: 60px"
@@ -32,7 +34,7 @@
          <i class="input-logo logo-style2" style="transform: translateY(25%)"></i>
        </el-col>
        <el-col :xs="20" class="a100">
-         <input class="login-input-all create-input" placeholder="活动地址" v-model="data.local" />
+         <input class="login-input-all create-input" placeholder="活动地址" v-model="data.address" />
        </el-col>
      </el-row>
      <el-row class="show-list-box" style="height: 60px;line-height: 60px" @click.native="positionChoice">
@@ -64,10 +66,10 @@
          <i class="input-logo logo-style2" style="transform: translateY(25%)"></i>
        </el-col>
        <el-col :xs="20" class="a100">
-         <input class="login-input-all create-input" placeholder="联系人电话" v-bind="data.phone" />
+         <input class="login-input-all create-input" placeholder="联系人电话" v-model="data.phone" />
        </el-col>
      </el-row>
-     <el-row class="show-list-box" style="height: 60px;line-height: 60px">
+     <el-row class="show-list-box" style="height: 60px;line-height: 60px;margin-top: 10px">
        <el-col :xs="4" style="text-align: center">
          <i class="input-logo logo-style2" style="transform: translateY(25%)"></i>
        </el-col>
@@ -76,9 +78,7 @@
        </el-col>
      </el-row>
     </div>
-    <div slot="footer" class="dialog-footer" style="width: 100%; position: fixed; bottom: 0">
-      <mt-button type="primary" @click="confirmInfo($event)" class="create-btn">确认发布</mt-button>
-    </div>
+    <p class="create-activity" @click="confirmInfo($event, '/activity/create')">确认活动</p>
   </div>
 </template>
 
@@ -100,8 +100,10 @@ export default {
       },
       address: '',
       data: {
+        phone: '',
+        poster: '',
         name: '',
-        lnt: '',
+        lng: '',
         lat: '',
         time: '',
         address: '',
@@ -116,36 +118,6 @@ export default {
       e.stopPropagation()
       this.$router.push(path)
     },
-    handlePostAvatarScucess (res, file) {
-      this.$set(this.trends, 'imagePost', URL.createObjectURL(file.raw))
-    },
-    handlePictureAvatarScucess (res, file) {
-      this.$set(this.trends, 'imagePicture', URL.createObjectURL(file.raw))
-    },
-    beforePostAvatarUpload (file) {
-      let regexCheck = /(jpg|png|jpeg)$/
-      let isJPG = (regexCheck.test(file.type.toLowerCase().split('/')[1]))
-      let isLt5M = file.size / 1024 / 1024 < 5
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是jpg、png、jpeg格式!')
-      }
-      if (!isLt5M) {
-        this.$message.error('上传头像图片大小不能超过 5MB!')
-      }
-      return isJPG && isLt5M
-    },
-    beforePictureAvatarUpload (file) {
-      let regexCheck = /(jpg|png|jpeg)$/
-      let isJPG = (regexCheck.test(file.type.toLowerCase().split('/')[1]))
-      let isLt5M = file.size / 1024 / 1024 < 5
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是jpg、png、jpeg格式!')
-      }
-      if (!isLt5M) {
-        this.$message.error('上传头像图片大小不能超过 5MB!')
-      }
-      return isJPG && isLt5M
-    },
     positionChoice () {
       let positionChoice = document.getElementById('positionChoice')
       positionChoice.classList.add('active')
@@ -157,12 +129,23 @@ export default {
       map.addEventListener('click', this.showInfo)
     },
     showInfo (e) {
-      this.$set(this.data, 'lnt', e.point.lng)
+      this.$set(this.data, 'lng', e.point.lng)
       this.$set(this.data, 'lat', e.point.lat)
       this.address = '经度:' + e.point.lng + ',维度:' + e.point.lat
       setTimeout(function () {
         let positionChoice = document.getElementById('positionChoice')
         positionChoice.classList.remove('active')
+      })
+    },
+    upload (e) {
+      e.stopPropagation()
+      let file = e.target.files[0]
+      let _self = this
+      let url = '/api/active/upload/poster'
+      const formData = new FormData()
+      formData.append('image', file)
+      _self.postHttp(url, formData).then(function (data) {
+        _self.data.poster = 'http://cjfpersonal.com:8889/' + data.data.image
       })
     },
     showTime (moduleType, character) {
@@ -178,6 +161,10 @@ export default {
     },
     confirmInfo: function (e) {
       e.stopPropagation()
+      let _self = this
+      _self.postHttp('/api/active/storeActive', _self.data, 'toast').then(function (data) {
+        _self.$router.push('/activity/detail')
+      })
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
 <div>
-    <headl :bar='false' :search="false" title="发布课程" backRouth="/course"></headl>
+    <!--<headl :bar='false' :search="false" title="发布课程" backRouth="/course"></headl>-->
     <date-time-show v-on:time="getTime" :startTime="''" dateType="datetime" :openTime='sh.time'></date-time-show>
     <div>
       <el-row class="show-list-box" style="height: 60px;line-height: 60px">
@@ -8,7 +8,7 @@
          <i class="input-logo logo-style2" style="transform: translateY(25%)"></i>
        </el-col>
        <el-col :xs="20" class="a100">
-         <input class="login-input-all create-input" placeholder="课程编号" v-bind="course.number" />
+         <input class="login-input-all create-input" placeholder="课程编号" v-model="course.number" />
        </el-col>
      </el-row>
      <el-row class="show-list-box" style="height: 60px;line-height: 60px">
@@ -16,7 +16,7 @@
          <i class="input-logo logo-style2" style="transform: translateY(25%)"></i>
        </el-col>
        <el-col :xs="20" class="a100">
-         <input class="login-input-all create-input" placeholder="课程名称" v-bind="course.name" />
+         <input class="login-input-all create-input" placeholder="课程名称" v-model="course.name" />
        </el-col>
      </el-row>
      <el-row class="show-list-box" style="height: 60px;line-height: 60px">
@@ -24,7 +24,7 @@
          <i class="input-logo logo-style2" style="transform: translateY(25%)"></i>
        </el-col>
        <el-col :xs="20" class="a100">
-         <input class="login-input-all create-input" placeholder="主讲教师" v-bind="course.teacher" />
+         <input class="login-input-all create-input" placeholder="主讲教师" v-model="course.teacher" />
        </el-col>
      </el-row>
      <el-row class="show-list-box" style="height: 60px;line-height: 60px" 
@@ -76,7 +76,7 @@ export default {
       e.stopPropagation()
       let _self = this
       _self.postHttp('/api/course/store', _self.course).then(function (data) {
-        _self.gotoRouter('/course')
+        _self.gotoRouter(e, '/course')
       })
     },
     showTime (e, moduleType, character) {

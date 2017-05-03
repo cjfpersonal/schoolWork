@@ -122,6 +122,9 @@
 .info-logo {
     background-image: url(./src/course/info.png)
 }
+.publish-logo {
+    background-image: url(./src/notice/publish.png)
+}
 .success-logo {
     background-image: url(./src/success.png)
 }
@@ -239,6 +242,34 @@
     width: 8px;
     height: 10px;
 }
+.activity-style4 {
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-block;
+    width: 21px;
+    height: 24px;
+}
+.activity-style5 {
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-block;
+    width: 17px;
+    height: 21px;
+}
+.activity-style6 {
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-block;
+    width: 21px;
+    height: 18px;
+}
+.activity-style7 {
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-block;
+    width: 16px;
+    height: 20px;
+}
 /* 主页下方的logo */
 .home-style1 {
     background-repeat: no-repeat;
@@ -274,4 +305,11 @@
     display: inline-block;
     width: 29px;
     height: 30px; 
+}
+.publish-style {
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-block;
+    width: 16px;
+    height: 15px; 
 }

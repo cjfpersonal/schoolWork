@@ -7,7 +7,9 @@
             <span @click="goback" class="chart-back">退出</span>
             {{title}}
             </h1>
-        <el-row v-for="(item, index) in data" :key="index" class="chart-list-box" @click.native="showDetail(item)">
+        <el-row v-for="(item, index) in data" :key="index" 
+        ref="showChartDetail2"
+        class="chart-list-box" @click.native="showDetail">
             <el-col :xs="5">
                 <img :src="item.img" class="chart-list-img" />                
             </el-col>
@@ -20,7 +22,7 @@
     class="toastChoice">
         <h1 class="chart-title">
             <span @click="hideDetail" class="chart-back">返回</span>
-            {{recordTitle}}
+            聊天信息
         </h1>
         <div class="chart-detail-box" id="chartScroll">
             <el-row v-for="(content, index) in chartContent" :key="index" class="m25">
@@ -85,8 +87,9 @@ export default {
     goback () {
       this.$emit('back')
     },
-    showDetail (item) {
-      this.recordTitle = item.name
+    showDetail () {
+      console.log(23456765432)
+      // this.recordTitle = item.name ? item.name : ''
       this.showChartDetail = true
       this.chartContent = [{
         auth: '减肥胆大f',

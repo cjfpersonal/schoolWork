@@ -8,11 +8,11 @@
       <p class="activity-content-box">
         <i class="activity-time-logo logo-style3" style="transform: translateY(25%)"></i>
         <span style="padding-left: 10px">时间: {{data.time}}</span></p>
-      <p class="activity-content-box">
-        <i class="activity-local-logo logo-style3" style="transform: translateY(25%)"></i>
-        <span style="padding-left: 10px">地址: {{data.address}}</span></p>
+      <p class="activity-content-box clearfix">
+        <i class="activity-local-logo activity-style4 fl" style="transform: translateY(25%)"></i>
+        <span class="address-left">地址: {{data.address}}</span></p>
       <p class="activity-content-box noborder">
-        <i class="activity-money-logo logo-style3" style="transform: translateY(25%)"></i>
+        <i class="activity-money-logo activity-style5" style="transform: translateY(25%)"></i>
         <span style="padding-left: 10px">费用: {{data.money === 0?'免费':data.money}}</span></p>
     </div>
     <div class="m25" style="background: white" v-if="data.money!=0">
@@ -71,7 +71,9 @@ export default {
       e.stopPropagation()
       let _self = this
       MessageBox.confirm('确定加入活动？').then(action => {
-        _self.$router.push('/activity/addSuccess/' + _self.$route.params.id)
+        _self.getHttp('/api/active/apply/' + _self.data.id).then(function (data) {
+          _self.$router.push('/activity/addSuccess/' + _self.$route.params.id)
+        })
       }).catch(function () {
         console.log(456)
       })

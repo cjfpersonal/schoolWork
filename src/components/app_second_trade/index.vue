@@ -89,18 +89,15 @@ export default {
   },
   methods: {
     init () {
-      let oBj = this.data
+      // let oBj = this.data
       let _self = this
       _self.getChoice = [false, false]
-      _self.$http.get('/login/search/user?shopName=' + oBj.shopName +
-       '&shopType=' + oBj.shopType + '&priceStart=' + oBj.priceStart).then(function (response) {
-         return response.json()
-       }).then(function (data) {
-         if (data.status === 0) {
-           _self.items = data.data
-           _self.imgResize()
-         }
-       })
+      // let url = '/login/search/user?shopName=' + oBj.shopName +
+      // '&shopType=' + oBj.shopType + '&priceStart=' + oBj.priceStart
+      let url = '/api/good/list'
+      _self.getHttp(url).then(function (data) {
+        console.log(data)
+      })
     },
     imgResize () {
       if (this.items.length === 0) {

@@ -7,24 +7,36 @@ Vue.use(VueResource)
 /**
  * @description get请求数据
  */
-Vue.prototype.getHttp = function (url) {
+Vue.prototype.getHttp = function (url, type) {
   let _self = this
   return new Promise(function (resolve) {
     // let url = 'http://cjfpersonal.com' + path
     _self.$http.get(url).then(function (response) {
       return response.json()
     }).then(function (data) {
+      if (type === 'toast' && data.errcode === 0) {
+        Toast({
+          duration: 1000,
+          message: data.errmsg
+        })
+      }
       if (data.errcode === 0) {
         resolve(data.data)
       } else {
         Toast({
+          duration: 1000,
           message: data.errmsg,
           iconClass: 'el-icon-circle-cross'
         })
         return false
       }
-    }).catch(function () {
+    }).catch(function (data) {
+      if (data.status === 403) {
+        this.$router.push('/')
+        return false
+      }
       Toast({
+        duration: 1000,
         message: '服务爆炸',
         iconClass: 'el-icon-circle-cross'
       })
@@ -42,10 +54,11 @@ Vue.prototype.postHttp = function (url, data) {
     _self.$http.post(url, data).then(function (response) {
       return response.json()
     }).then(function (data) {
-      if (data.errmsg === 0) {
+      if (data.errcode === 0) {
         resolve(data)
       } else {
         Toast({
+          duration: 1000,
           message: data.errmsg,
           iconClass: 'el-icon-circle-cross'
         })
@@ -60,11 +73,16 @@ Vue.prototype.postHttp = function (url, data) {
           break
         }
         Toast({
+          duration: 1000,
           message: description,
           iconClass: 'el-icon-circle-cross'
         })
+      } else if (data.status === 403) {
+        this.$router.push('/')
+        return false
       } else {
         Toast({
+          duration: 1000,
           message: '服务爆炸',
           iconClass: 'el-icon-circle-cross'
         })
@@ -77,7 +95,24 @@ Vue.prototype.postHttp = function (url, data) {
  * @description 拦截器
  */
 Vue.http.interceptors.push((request, next) => {
-  next((response) => {
-    return response
+  setTimeout(function () {
+    let loadding = document.getElementById('loadding')
+    loadding.style.display = 'block'
+    next((response) => {
+      loadding.style.display = 'none'
+      return response
+    })
   })
 })
+/**
+ * @description cookie封装
+ */
+Vue.prototype.getCookie = function (key) {
+  let cookie = document.cookie.split(';')
+  for (let n = 0; n < cookie.length; n++) {
+    if (cookie[n].split('=') && cookie[n].split('=')[0] === key) {
+      return cookie[n].split('=')[1]
+    }
+  }
+  return false
+}

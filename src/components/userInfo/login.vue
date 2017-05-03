@@ -14,13 +14,14 @@
             <i class="repassword-logo login-logo-local"></i>
             <input class="login-input-all" 
             v-model="data.password"
+            type="password"
             placeholder="请输入密码" />
             <span class="forget-password">忘记密码</span>
         </el-col>
     </el-row>
     <el-row class="m25">
         <el-col :offset="2" :xs="20" class="input-box">
-            <p class="login-btn" v-on:click="gotoRouter($event, '/home')">登录</p>
+            <p class="login-btn" v-on:click="login($event)">登录</p>
         </el-col>
     </el-row>
     <p class="no-login">
@@ -50,7 +51,8 @@ export default {
       let url = '/api/user/login'
       let _self = this
       _self.postHttp(url, _self.data).then(function (data) {
-        console.log(data)
+        document.cookie = 'user_id=' + data.data.user.id
+        _self.$router.push('/home')
       })
     }
   }

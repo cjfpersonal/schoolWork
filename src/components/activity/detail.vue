@@ -14,19 +14,19 @@
               <div class="content-right-box">
                 <p class="activity-main-title">{{data.name}}</p>
                 <p>
-                  <i class="time-logo logo-style5"></i>
+                  <i class="time-logo activity-style1"></i>
                   <span>时间:</span><span>{{data.time}}</span></p>
                 <p>
-                  <i class="local-logo logo-style5"></i>
+                  <i class="local-logo activity-style2"></i>
                   <span>地址:</span><span>{{data.address}}</span></p>
                 <p>
-                  <i class="money-logo logo-style5"></i>
+                  <i class="money-logo activity-style3"></i>
                   <span>费用:</span><span>{{data.money}}</span></p>
                 <p>
-                  <i class="attend-person-logo logo-style5"></i>
+                  <i class="attend-person-logo activity-style2"></i>
                   <span>报名人数:</span><span>{{data.person}}</span></p>
                 <p>
-                  <i class="total-logo logo-style5"></i>
+                  <i class="total-logo activity-style1"></i>
                   <span>剩余人数:</span><span>{{data.count  - data.person}}</span></p>
               </div>
           </el-col>

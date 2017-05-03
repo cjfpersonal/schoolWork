@@ -1,6 +1,6 @@
 <template>
 <div class="a100" style="background: #f3f4f3">
-    <headl title="上传资料" :backRouth="'/course/detail/'+data.id"></headl>
+    <!--<headl title="上传资料" :backRouth="'/course/detail/'+data.id"></headl>-->
     <p class="course-upload">{{data.name}}</p>
     <el-row class="m15 course-upload">
         <el-col :xs="13">

@@ -1,8 +1,8 @@
 <template>
   <div class="a100">
     <div class="activity-list-box">
-      <p class="activity-list-activity" :class="{'active': isFocus }" @click.active="addActive($event)">活动</p>
-      <p class="activity-list-activity" :class="{'active': !isFocus }" @click.active="addActive($event)">社团</p>
+      <p class="activity-list-activity" :class="{'active': !isFocus }" @click.active="addActive($event, 0)">活动</p>
+      <p class="activity-list-activity" :class="{'active': isFocus }" @click.active="addActive($event, 1)">社团</p>
     </div>
     <div id='activityInfo'></div>
     <div class="activity-logo-box" @click="gotoRouter($event, '/activity/detail')">
@@ -121,9 +121,14 @@ export default {
         map.addEventListener('touchstart', _self.positionChoice)
       })
     },
-    addActive (e) {
+    addActive (e, type) {
       e.stopPropagation()
-      this.isFocus = !this.isFocus
+      if (type === 0) {
+        this.isFocus = false
+      } else if (type === 1) {
+        this.isFocus = true
+        this.gotoRouter(e, '/college/index')
+      }
     },
     gotoRouter (e, path) {
       e.stopPropagation()

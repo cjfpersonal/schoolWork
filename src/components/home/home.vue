@@ -66,8 +66,9 @@ export default {
   width: 20%;
   text-align: center;
   background: white;
-  padding: 3px 0;
-  font-size: 12px
+  font-size: 12px;
+  height: 60px;
+  padding-top: 7px;
 }
 .home-list.active p {
   color: #4b99ff

@@ -1,6 +1,6 @@
 <template>
 <div>
-    <headl :bar='false' :search="false" title="课程详情" backRouth="/course"></headl>
+    <!--<headl :bar='false' :search="false" title="课程详情" backRouth="/course"></headl>-->
     <toast-choice :operation="operation" :dataChoice="resource" :decideShow="decideShow"
     v-on:get="getResourceDetail"
     v-on:edit="uploadTxt"

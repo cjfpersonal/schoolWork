@@ -78,3 +78,13 @@
 .swiper-box .el-carousel__container {
     height: 100%
 }
+.loadding {
+    position: fixed !important;
+    width: 100%;
+    height: 100%;
+    z-index: 99999999999;
+    top: 0;
+    opacity: .9;
+    display: none;
+    bottom: 0
+}

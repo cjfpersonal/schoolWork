@@ -1,19 +1,31 @@
 <template>
 <div class="a100">
-    <headl :search="true" title="社团信息" backRouth="/home/user"></headl>
-    <div class="activity-detail-list-content" v-on:scroll="scrollData($event)">
-        <div v-for="data in college.data" class="trends-detail-list clearfix"
-        @click="gotoRouter($event, 'detail/' + data.id)">
-            <p style="clear: both;text-align: right;padding-bottom: 10px">社团</p>
-            <div class="trends-detail-content clearfix">
-                <p class="detail-main-title">{{data.name}}</p>
-                <p><span>人数:</span><span>{{data.amount}}</span></p>
-                <p><span>类型:</span><span>{{data.type}}</span></p>
-                <p>{{data.introduction | maxLength}}</p>
+    <!--<headl :search="true" title="社团信息" backRouth="/home/user"></headl>-->
+    <div class="activity-detail-list-content"
+    v-on:scroll='scrollData($event)'>
+      <div v-for="data in college.data"
+      style="padding: 15px 5px; background: white"
+      class="trends-detail-list clearfix" @click="gotoRouter($event, '/college/detail/' + data.id)">
+      <el-row>
+        <el-col :xs="20" :offset="2" style="height: 120px;">
+            <div class="content-right-box">
+              <p class="activity-main-title">{{data.name}}</p>
+              <p>
+                <span>创建时间:</span><span>{{data.created_at}}</span></p>
+              <p>
+                <span>参与人数:</span><span>{{data.amount}}</span></p>
+              <p>
+                <span>限制人数:</span><span>{{data.amount}}</span></p>
+              <p>
+                <span>社团描述:</span><span>{{data.introduction}}</span></p>
+              <p>
+                <span>社团类型:</span><span>{{data.type}}</span></p>
             </div>
-            <p style="float:right;color: #93d1ff;">详情</p>
-        </div>
+        </el-col>
+      </el-row>
     </div>
+  </div>
+  <p class="create-activity" @click="gotoRouter($event, '/college/create')">创建社团</p>
 </div>
 </template>
 <script>

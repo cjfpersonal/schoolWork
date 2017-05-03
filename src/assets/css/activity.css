@@ -88,7 +88,7 @@
 .activity-detail-list-content {
     width: 100%;
     /*padding: 10px 10px;*/
-    height: calc(100% - 60px);
+    height: calc(100% - 55px);
     overflow: scroll
 }
 .trends-detail-list {
@@ -217,7 +217,7 @@
     bottom: 0;
 }
 .activity-list-activity.active::before {
-    width: 50%;
+    width: 30%;
     transition: all .3s;
     background: #4B99FF
 }
@@ -231,7 +231,7 @@
     bottom: 0
 }
 .activity-list-activity.active::after {
-    width: 50%;
+    width: 30%;
     transition: all .3s;
     background: #4B99FF
 }
@@ -240,13 +240,21 @@
 }
 .create-activity {
     position: fixed;
-    height: 60px;
+    height: 55px;
     width: 100%;
     font-size: 16px;
     font-weight: 700;
     box-shadow: 0 0 10px #888;
     background: #4B99FF;
     color: white;
-    line-height: 60px;
+    line-height: 55px;
+    bottom: 0;
     text-align: center
+}
+.file-upload {
+    position: absolute;
+    left: 0;
+    width: 60px;
+    height: 60px;
+    opacity: 0
 }

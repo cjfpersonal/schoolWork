@@ -1,8 +1,8 @@
 <template>
 <div class="a100 clearfix">
-    <headl :choice="choice" :search="true" title="课程信息" backRouth="/home/user"
-     v-if="getRoute !== '/home/course'"></headl>
-    <div class="activity-detail-list-content"
+    <!--<headl :choice="choice" :search="true" title="课程信息" backRouth="/home/user" v-if="getRoute !== '/home/course'"></headl>-->
+    <div class="a100"
+    style="overflow: scroll"
     v-on:scroll='scrollData'>
         <div v-for="data in course.data"
         class="trends-detail-list clearfix" @click="gotoRouter($event, '/course/detail/' + data.id)">
@@ -14,8 +14,9 @@
           </div>
           <div style="padding: 10px 0;text-align:right">
             <button class="enjoy-resource">共享资料</button>
-            <button class="enjoy-resource">签到</button>
-            <button class="enjoy-resource had-sign">已签到</button>
+            <button class="enjoy-resource">详情</button>
+            <!--<button class="enjoy-resource">签到</button>
+            <button class="enjoy-resource had-sign">已签到</button>-->
           </div>
         </div>
     </div>

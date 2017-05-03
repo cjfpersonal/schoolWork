@@ -1,6 +1,6 @@
 <template>
 <div>
-    <headl title="个人信息" backRouth="/home/user"></headl>
+    <!--<headl title="个人信息" backRouth="/home/user"></headl>-->
     <date-time dateType="date" :openTime="showTime" :startTime="data.birthday" v-on:time="getNewBirthday"></date-time>
     <mt-cell title="头像" is-link>
         <img :src="data.wx_head_img" class="user-head-show" />

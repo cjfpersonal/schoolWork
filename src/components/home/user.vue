@@ -7,14 +7,14 @@
       <el-col :xs="14" class="show-list-font-box">
         <div class="show-list-font">
           <p>
-            <span class="show-list-name">{{data.name}}</span>
-            <i class="ident-small logo-style1 logo-change"></i>
+            <span class="show-list-name">{{data.name?data.name:'姓名'}}</span>
+            <i class="ident-small logo-style1 logo-change" v-if="data.is_certified"></i>
           </p>
           <p style="margin-top: 10px">
-            <span style="padding-right: 10px">{{data.gender===1? '男': '女'}}</span>
-            <span>{{data.grade}}</span>
+            <span style="padding-right: 10px">{{data.gender?(data.gender===1? '男': '女'):'性别'}}</span>
+            <span>{{data.grade?data.grade:'年级'}}</span>
           </p>
-          <p>{{data.college}}</p>
+          <p>{{data.college?data.college:'学校'}}</p>
         </div>
       </el-col>
       <el-col :xs="2" class="right-point"><i class="el-icon-arrow-right"></i></el-col>
@@ -25,15 +25,16 @@
          签名
        </el-col>
        <el-col :xs="18">
-         {{data.realname}}
+         {{data.realname?data.realname:'真实签名'}}
        </el-col>
      </el-row>
-     <el-row class="show-list-box m25" style="height: 50px;line-height: 50px">
+     <el-row class="show-list-box m25" style="height: 50px;line-height: 50px"
+     @click.native="reCertified($event)">
        <el-col :xs="6" style="text-align: center">
          <i class="ident-big logo-style1" style="transform: translateY(25%)"></i>
        </el-col>
        <el-col :xs="16">
-         未/已认证
+         {{ data.is_certified ? '已认证' : '未认证' }}
        </el-col>
        <el-col :xs="2"><i class="el-icon-arrow-right" style="color: #dfdfdf"></i></el-col>
      </el-row>
@@ -77,7 +78,8 @@
        </el-col>
        <el-col :xs="2"><i class="el-icon-arrow-right" style="color: #dfdfdf"></i></el-col>
      </el-row>
-     <el-row class="show-list-box" style="height: 50px;line-height: 50px">
+     <el-row class="show-list-box" style="height: 50px;line-height: 50px"
+     @click.native="logout($event, '/')">
        <el-col :xs="6" style="text-align: center">
          <i class="logout-logo logo-style2" style="transform: translateY(25%)"></i>
        </el-col>
@@ -89,6 +91,8 @@
 </div>
 </template>
 <script>
+import { MessageBox } from 'mint-ui'
+
 export default {
   name: 'user',
   data () {
@@ -101,13 +105,32 @@ export default {
   },
   methods: {
     init () {
-      this.data = {
-        name: 'cjfpersonal',
-        gender: 1,
-        grade: '大四',
-        college: '计算机与软件学院',
-        realname: '生活就像海洋'
-      }
+      let _self = this
+      _self.getHttp('/api/user/info/' + _self.getCookie('user_id')).then(function (data) {
+        console.log(data)
+      })
+      // this.data = {
+      //   name: 'cjfpersonal',
+      //   gender: 1,
+      //   grade: '大四',
+      //   college: '计算机与软件学院',
+      //   realname: '生活就像海洋'
+      // }
+    },
+    reCertified (e) {
+      e.stopPropagation()
+      let _self = this
+      MessageBox.confirm('是否发送认证到邮箱?').then(function () {
+        _self.getHttp('/api/user/sendActivationCode', 'toast').then(function (data) {
+          console.log(data)
+        })
+      })
+    },
+    logout (e, path) {
+      let _self = this
+      _self.getHttp('/api/user/logout').then(function (data) {
+        _self.gotoRouter(e, path)
+      })
     },
     gotoRouter (e, path) {
       e.stopPropagation()

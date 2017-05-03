@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import Vuex from 'vuex'
 import App from './App'
 import VueRouter from 'vue-router'
 import ElementUI from 'element-ui'
@@ -17,11 +18,13 @@ import './assets/js/server'
 Vue.use(VueRouter)
 Vue.use(ElementUI)
 Vue.use(MintUI)
+Vue.use(Vuex)
 // 1. 定义（路由）组件。
 // 可以从其他文件 import 进来
 // import home from './components/home'
 import homeList from './components/home/home'
 import homeUser from './components/home/user'
+import commonUser from './components/common/userList'
 
 import userInfo from './components/userInfo/index'
 import userDetail from './components/common/userInfo'
@@ -33,6 +36,7 @@ import noticeHome from './components/notice/home'
 import noticeIndex from './components/notice/index'
 import noticeCreate from './components/notice/create'
 import noticeDetail from './components/notice/detail'
+import noticeList from './components/notice/list'
 
 import courseHome from './components/course/home'
 import courseIndex from './components/course/index'
@@ -45,6 +49,8 @@ import collegeHome from './components/college/home'
 import collegeIndex from './components/college/index'
 import collegeCreate from './components/college/create'
 import collegeDetail from './components/college/detail'
+import collegeDecideAttend from './components/college/decideAttend'
+import successCollege from './components/college/addSuccess'
 
 import activityHome from './components/activity/home'
 import activityIndex from './components/activity/index'
@@ -81,6 +87,7 @@ const routes = [
   },
   { path: '/user/detail/:id', component: userDetail },
   { path: '/userInfo', component: userInfo },
+  { path: '/userList/:type/:id', component: commonUser },
   { path: '/login', component: userLogin },
   { path: '/beforeLogin', component: userChoice },
   { path: '/register', component: userRegister },
@@ -90,7 +97,8 @@ const routes = [
       { path: '', redirect: 'index' },
       { path: 'index', component: noticeIndex },
       { path: 'create/:type', component: noticeCreate },
-      { path: 'detail/:type/:id', component: noticeDetail }
+      { path: 'detail/:type/:id', component: noticeDetail },
+      { path: 'list/:type', component: noticeList }
     ]
   },
   { path: '/course',
@@ -110,7 +118,9 @@ const routes = [
       { path: '', redirect: 'index' },
       { path: 'index', component: collegeIndex },
       { path: 'create', component: collegeCreate },
-      { path: 'detail/:id', component: collegeDetail }
+      { path: 'detail/:id', component: collegeDetail },
+      { path: 'decide/:id', component: collegeDecideAttend },
+      { path: 'addsuccess/:id', component: successCollege }
     ]
   },
   { path: '/tradeIndex', component: tradeIndex },
