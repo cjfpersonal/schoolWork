@@ -258,3 +258,8 @@
     height: 60px;
     opacity: 0
 }
+.more-content-hide {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

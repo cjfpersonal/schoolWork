@@ -147,7 +147,8 @@ export default {
 .show-list-img {
   width: 90px;
   height: 90px;
-  margin: 15px 0
+  margin: 15px 0;
+  border-radius: 50%
 }
 .show-list-img-box {
   height: 120px;  

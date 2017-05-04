@@ -38,7 +38,8 @@ module.exports = {
         changeOrigin:true
       },
       '/api':{
-        target:'http://120.25.81.158',
+        // target:'http://120.25.81.158',
+        target: 'http://172.30.67.78:8000/schoolmate/public',
         changeOrigin:true
       }
     },

@@ -37,6 +37,7 @@ import noticeIndex from './components/notice/index'
 import noticeCreate from './components/notice/create'
 import noticeDetail from './components/notice/detail'
 import noticeList from './components/notice/list'
+import noticeComment from './components/notice/comment'
 
 import courseHome from './components/course/home'
 import courseIndex from './components/course/index'
@@ -98,7 +99,8 @@ const routes = [
       { path: 'index', component: noticeIndex },
       { path: 'create/:type', component: noticeCreate },
       { path: 'detail/:type/:id', component: noticeDetail },
-      { path: 'list/:type', component: noticeList }
+      { path: 'list/:type', component: noticeList },
+      { path: 'comment/:type/:id', component: noticeComment }
     ]
   },
   { path: '/course',

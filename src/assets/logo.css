@@ -182,6 +182,21 @@
 .activity-list-logo {
     background-image: url(./src/activity/activity-list.png)
 }
+.system-logo {
+    background-image: url(./src/notice/system.png)
+}
+.scan-logo {
+    background-image: url(./src/notice/scan.png)
+}
+.notice-activity-logo {
+    background-image: url(./src/notice/notice-activity.png)
+}
+.notice-college-logo {
+    background-image: url(./src/notice/notice-college.png)
+}
+.comment-logo {
+    background-image: url(./src/notice/comment.png)
+}
 .logo-style1 {
     background-repeat: no-repeat;
     background-size: cover;
@@ -216,6 +231,20 @@
     display: inline-block;
     width: 10px;
     height: 10px;   
+}
+.logo-style6 {
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-block;
+    width: 15px;
+    height: 11px;   
+}
+.logo-style7 {
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-block;
+    width: 20px;
+    height: 11px;   
 }
 /* 活动详情logo */
 .activity-style1 {

@@ -5,7 +5,7 @@
     <p class="activity-list-activity" :class="{'active': !isFocus }" @click.active="addActive($event, 0)">公告信息</p>
     <p class="activity-list-activity" :class="{'active': isFocus }" @click.active="addActive($event, 1)">兼职信息</p>
   </div>
-  <div v-if="!isFocus">
+  <div v-if="!isFocus" class="work-box" v-on:scroll='userScrollData'>
     <div class="m15">
       <el-row class="show-list-box" style="height: 50px;line-height: 50px"
      @click.native="gotoRouter($event, '/notice/list/course')">
@@ -16,7 +16,8 @@
          课程公告
        </el-col>
        <el-col :xs="2"><i class="el-icon-arrow-right" style="color: #dfdfdf"></i></el-col>
-     </el-row>
+      </el-row>
+     </div>
      <el-row class="show-list-box" style="height: 50px;line-height: 50px"
      @click.native="gotoRouter($event, '/notice/list/college')">
        <el-col :xs="6" style="text-align: center">
@@ -37,41 +38,34 @@
        </el-col>
        <el-col :xs="2"><i class="el-icon-arrow-right" style="color: #dfdfdf"></i></el-col>
      </el-row>
+    <p class="notice-head-title">系统公告</p>  
+    <el-row v-for="data in system.data" class="work-content"
+    @click.native="gotoRouter($event, '/notice/detail/user/' + data.id)">
+      <el-col :xs="2">
+        <i class="system-logo logo-style5"></i>
+      </el-col>
+      <el-col :xs="22">
+        <p class="notice-detail-position">{{data.title}}</p>
+        <p class="notice-detail-company-name more-content-hide">{{data.content}}</p>
+        <p class="notice-detail-content">
+          {{data.created_at | date}}
+          <span class="fr">
+            <i class="scan-logo logo-style7"></i>
+            {{data.view ? data.view : '0'}}
+          </span>
+        </p>
+      </el-col>
+    </el-row>   
     </div>
-    <div class="m15">
-      <div v-for="data in datas">
-          <div v-if="data.activityType === 'notice'" class="trends-detail-list clearfix" 
-          @click="gotoRouter($event, 'detail/'+data.activityType+'/243243')">
-              <p style="clear: both;text-align: right;padding-bottom: 10px">公告</p>
-              <div class="trends-detail-content clearfix">
-                  <p class="detail-main-title">{{data.title}}</p>
-                  <p>{{data.content | maxLength}}</p>
-              </div>
-              <p style="float:right;color: #93d1ff;">详情</p>
-          </div>
-          <div  v-if="data.activityType === 'work'" class="trends-detail-list clearfix" 
-          @click="gotoRouter($event, 'detail/'+data.activityType+'/243243')">
-              <p style="clear: both;text-align: right;padding-bottom: 10px">招聘信息</p>
-              <div class="trends-detail-content clearfix">
-                  <p class="detail-main-title">{{data.job}}</p>
-                  <p><span>公司名称:</span><span>{{data.company_name}}</span></p>
-                  <p><span>薪资:</span><span>{{data.salary}}</span></p>
-                  <p><span>招聘人数:</span><span>{{data.amount}}</span></p>
-                  <p>{{data.description | maxLength}}</p>
-              </div>
-              <p style="float:right;color: #93d1ff;">详情</p> 
-          </div>
-      </div>
-    </div>
-  </div>
   <div v-if="isFocus" class="work-box">
     <div class="work-content-box" v-on:scroll='scrollData'>
-      <el-row class="work-content" v-for="work in works.data" @click.native="gotoRouter($event, '/notice/detail/work/' + work.id)">
+      <el-row class="work-content" 
+      v-for="work in works.data" @click.native="gotoRouter($event, '/notice/detail/work/' + work.id)">
         <el-col :xs="18">
-          <p class="work-name">{{work.position}}</p>
-          <p class="work-business">{{work.company_name}}</p>
-          <p><span>学历要求:</span><span>{{work.teacher}}</span></p>
-          <p><span>公司类别:</span><span>{{work.company_type}}</span></p>
+          <p class="notice-detail-position">{{work.position}}</p>
+          <p class="notice-detail-company-name">{{work.company_name}}</p>
+          <p class="notice-detail-content"><span>学历要求:</span><span>{{work.education}}</span></p>
+          <p class="notice-detail-content"><span>公司类别:</span><span>{{work.company_type}}</span></p>
         </el-col>
         <el-col :xs="6">
           <p class="work-salary">{{work.salary}}</p>
@@ -104,7 +98,9 @@ export default {
         path: '/notice/create/work'
       }],
       page: 1,
+      userPage: 1,
       works: [],
+      system: [],
       datas: []
     }
   },
@@ -117,45 +113,23 @@ export default {
       _self.getHttp('/api/info/partimeList?page=1').then(function (data) {
         _self.works = data.partime
       })
-      this.datas = [{
-        activityType: 'notice',
-        title: '校公告',
-        content: '的撒建立符合对方即可撒拉黑房间蒂萨浪费不看了多少遍你发的把历史记录和发动机来撒会放假到拉萨回房间都累死了安静环境反倒是拉横幅几点上课'
-      }, {
-        activityType: 'notice',
-        title: '校公告',
-        content: '的撒建立符合对方即可撒拉黑房间蒂萨浪费不看了多少遍你发的把历史记录和发动机来撒会放假到拉萨回房间都累死了安静环境反倒是拉横幅几点上课'
-      }, {
-        job: 'web前端开发',
-        activityType: 'work',
-        company_name: '深圳大学',
-        address: '地方撒立即回复记得撒很费劲考虑到三复读机啊',
-        phone: '18218025628',
-        email: '495673294@qq.com',
-        salary: '2132/元',
-        job_time: new Date(),
-        company_type: '创业d轮',
-        duration: '三个月',
-        education: '本科',
-        amount: '123',
-        end_time: new Date(),
-        description: 'dfsajlhfjds对方即可撒拉黑防静电数据库地方撒很费劲的快乐撒谎电视剧克拉回复就对了撒胡椒粉了决定是否健康拉速度回房间经济大厦附近'
-      }, {
-        job: 'web前端开发',
-        activityType: 'work',
-        company_name: '深圳大学',
-        address: '地方撒立即回复记得撒很费劲考虑到三复读机啊',
-        phone: '18218025628',
-        email: '495673294@qq.com',
-        salary: '2132/元',
-        job_time: new Date(),
-        company_type: '创业d轮',
-        duration: '三个月',
-        education: '本科',
-        amount: '123',
-        end_time: new Date(),
-        description: 'dfsajlhfjds对方即可撒拉黑防静电数据库地方撒很费劲的快乐撒谎电视剧克拉回复就对了撒胡椒粉了决定是否健康拉速度回房间经济大厦附近'
-      }]
+      _self.getHttp('/api/info/announcementList?page=1').then(function (data) {
+        _self.system = data.announcements
+      })
+    },
+    userScrollData (e) {
+      e.stopPropagation()
+      if (this.userPage < this.system.last_page) {
+        let url = '/api/info/announcementList?page=' + (parseInt(this.userPage) + 1)
+        let dom = e.target
+        let _self = this
+        if (dom.offsetHeight + dom.scrollTop >= dom.scrollHeight) {
+          _self.getHttp(url).then(function (data) {
+            _self.system.data = _self.system.data.concat(data.announcements.data)
+            _self.userPage = data.announcements.current_page
+          })
+        }
+      }
     },
     scrollData (e) {
       e.stopPropagation()
@@ -204,12 +178,13 @@ export default {
 .work-content {
   width: 100%;
   background: white;
-  margin-top: 20px;
+  margin-top: 10px;
   padding: 10px 15px
 }
 .work-box {
   padding: 0 20px;
   width: 100%;
+  overflow: scroll;
   height: calc(100% - 60px)
 }
 .publish-box {
@@ -241,6 +216,35 @@ export default {
 .work-end-time {
   color: #ADADAD;
   float: right;
-  padding-top: 20px
+  min-width: 74px;
+  padding-top: 15px
+}
+.notice-head-title {
+  color: #A0A0A0;
+  font-size: 12px;
+  padding: 5px 20px;
+  text-align: center;
+  width: 100%;
+  position: relative
+}
+.notice-head-title::before {
+  content: '';
+  width: calc(45% - 24px);
+  background: #A0A0A0;
+  opacity: .2;
+  height: 2px;
+  position: absolute;
+  left: 0;
+  top: 13px;
+}
+.notice-head-title::after {
+  content: '';
+  width: calc(48% - 24px);
+  background: #A0A0A0;
+  opacity: .2;
+  height: 2px;
+  position: absolute;
+  right: 0;
+  top: 13px;
 }
 </style>
