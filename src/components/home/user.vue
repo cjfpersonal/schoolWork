@@ -2,19 +2,19 @@
 <div class="a100 clearfix">
    <el-row class="show-list-box" @click.native="gotoRouter($event, '/userInfo')">
       <el-col :xs="8" class="show-list-img-box">
-          <img src="../../assets/src/szu_logo.jpg" class="show-list-img" />
+          <img :src="data.info.wx_head_img" class="show-list-img" />
       </el-col>
       <el-col :xs="14" class="show-list-font-box">
         <div class="show-list-font">
           <p>
-            <span class="show-list-name">{{data.name?data.name:'姓名'}}</span>
-            <i class="ident-small logo-style1 logo-change" v-if="data.is_certified"></i>
+            <span class="show-list-name">{{data.info.name?data.info.name:'姓名'}}</span>
+            <i class="ident-small logo-style1 logo-change" v-if="data.is_active"></i>
           </p>
           <p style="margin-top: 10px">
-            <span style="padding-right: 10px">{{data.gender?(data.gender===1? '男': '女'):'性别'}}</span>
-            <span>{{data.grade?data.grade:'年级'}}</span>
+            <span style="padding-right: 10px">{{data.info.gender?(data.info.gender===1? '男': '女'):'性别'}}</span>
+            <span>{{data.info.grade?data.info.grade:'年级'}}</span>
           </p>
-          <p>{{data.college?data.college:'学校'}}</p>
+          <p>{{data.info.college?data.info.college:'学校'}}</p>
         </div>
       </el-col>
       <el-col :xs="2" class="right-point"><i class="el-icon-arrow-right"></i></el-col>
@@ -25,16 +25,16 @@
          签名
        </el-col>
        <el-col :xs="18">
-         {{data.realname?data.realname:'真实签名'}}
+         {{data.info.realname?data.info.realname:'真实签名'}}
        </el-col>
      </el-row>
      <el-row class="show-list-box m25" style="height: 50px;line-height: 50px"
      @click.native="reCertified($event)">
        <el-col :xs="6" style="text-align: center">
-         <i class="ident-big logo-style1" style="transform: translateY(25%)"></i>
+         <i class="ident-big logo-style3" style="transform: translateY(25%)"></i>
        </el-col>
        <el-col :xs="16">
-         {{ data.is_certified ? '已认证' : '未认证' }}
+         {{ data.is_active !== 0? '已认证' : '未认证' }}
        </el-col>
        <el-col :xs="2"><i class="el-icon-arrow-right" style="color: #dfdfdf"></i></el-col>
      </el-row>
@@ -68,6 +68,16 @@
        </el-col>
        <el-col :xs="2"><i class="el-icon-arrow-right" style="color: #dfdfdf"></i></el-col>
      </el-row>
+     <el-row class="show-list-box" style="height: 50px;line-height: 50px"
+     @click.native="gotoRouter($event, '/foodSuggest/detail')">
+       <el-col :xs="6" style="text-align: center">
+         <i class="food-suggest-logo logo-style3" style="transform: translateY(25%)"></i>
+       </el-col>
+       <el-col :xs="16">
+         饮食推荐
+       </el-col>
+       <el-col :xs="2"><i class="el-icon-arrow-right" style="color: #dfdfdf"></i></el-col>
+     </el-row>
      <el-row class="show-list-box m25" style="height: 50px;line-height: 50px"
      @click.native="gotoRouter($event, '/shopping')">
        <el-col :xs="6" style="text-align: center">
@@ -97,7 +107,9 @@ export default {
   name: 'user',
   data () {
     return {
-      data: {}
+      data: {
+        info: {}
+      }
     }
   },
   created () {
@@ -106,24 +118,22 @@ export default {
   methods: {
     init () {
       let _self = this
-      _self.getHttp('/api/user/info/' + _self.getCookie('user_id')).then(function (data) {
-        console.log(data)
+      _self.getHttp('/api/user/auth/info').then(function (data) {
+        _self.data = data.user
       })
-      // this.data = {
-      //   name: 'cjfpersonal',
-      //   gender: 1,
-      //   grade: '大四',
-      //   college: '计算机与软件学院',
-      //   realname: '生活就像海洋'
-      // }
     },
     reCertified (e) {
       e.stopPropagation()
       let _self = this
+      if (_self.data.is_active) {
+        return
+      }
       MessageBox.confirm('是否发送认证到邮箱?').then(function () {
         _self.getHttp('/api/user/sendActivationCode', 'toast').then(function (data) {
           console.log(data)
         })
+      }).catch(function (data) {
+        console.log(data)
       })
     },
     logout (e, path) {

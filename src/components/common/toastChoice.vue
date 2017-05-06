@@ -1,5 +1,5 @@
 <template>
-  <div class="toastChoice">
+  <div style="position: absolute; overflow: hidden; width: 100%">
     <mt-popup
     class="toastChoice"
     v-model="decideShow"
@@ -35,6 +35,9 @@ export default {
     return {
     }
   },
+  created () {
+    console.log(this.decideShow)
+  },
   methods: {
     returnChoice (e, item) {
       e.stopPropagation()
@@ -53,7 +56,8 @@ export default {
 <style>
 .toastChoice {
     width: 100%;
-    height: 100%
+    height: 100%;
+    z-index: 9999
 }
 .poppupContent{
     font-size: 16px;

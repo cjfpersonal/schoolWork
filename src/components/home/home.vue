@@ -44,8 +44,8 @@ export default {
   },
   methods: {
     init () {
-      let path = this.$route.fullPath.split('/')
-      this.choiceIndex = this.list.indexOf(path[path.length - 1])
+      let path = this.$route.fullPath.split('/').pop()
+      this.choiceIndex = this.list.indexOf(path)
     },
     chooseHome (e, index) {
       e.stopPropagation()

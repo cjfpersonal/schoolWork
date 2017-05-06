@@ -22,7 +22,7 @@
       </div>
     </div>
     <div class="dialog-footer" style="width: 100%; position: fixed; bottom: 0;box-shadow: 0 0 10px #888">
-        <div class="half-btn-box" v-on:click="gotoRouter($event, '/college/index')">
+        <div class="half-btn-box" v-on:click="gotoRouter($event, '/home/activity')">
             <i class="map-logo activity-style6" style="transform: translateY(25%)"></i>
             <span>社团地图</span>
         </div>

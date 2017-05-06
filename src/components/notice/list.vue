@@ -2,13 +2,14 @@
 <div class="a100" style="padding: 0 20px" v-on:scroll='userScrollData'>
   <p class="notice-head-title">{{title}}</p> 
   <el-row v-for="data in datas.data" 
+  :key="data"
   @click.native="gotoRouter($event, '/notice/detail/' + type + '/' + data.id)"
   class="work-content2" 
   v-if='datas.data.length > 0'>
     <el-col :xs="2">
       <i class="back-course-logo logo-style6" v-if="type === 'course'"></i>
       <i class="notice-activity-logo logo-style5" v-if="type === 'activity'"></i>
-      <i class="notice-college-logo logo-style6" v-if="type === 'college'"></i>
+      <i class="notice-college-logo logo-style8" v-if="type === 'college'"></i>
     </el-col>
     <el-col :xs="22">
       <p class="notice-detail-position">{{data.title}}</p>

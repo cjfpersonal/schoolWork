@@ -39,7 +39,7 @@
        <el-col :xs="2"><i class="el-icon-arrow-right" style="color: #dfdfdf"></i></el-col>
      </el-row>
     <p class="notice-head-title">系统公告</p>  
-    <el-row v-for="data in system.data" class="work-content"
+    <el-row v-for="data in system.data" class="work-content" :key="data"
     @click.native="gotoRouter($event, '/notice/detail/user/' + data.id)">
       <el-col :xs="2">
         <i class="system-logo logo-style5"></i>
@@ -51,7 +51,7 @@
           {{data.created_at | date}}
           <span class="fr">
             <i class="scan-logo logo-style7"></i>
-            {{data.view ? data.view : '0'}}
+            {{data.view ? data.view.count : '0'}}
           </span>
         </p>
       </el-col>
@@ -60,7 +60,7 @@
   <div v-if="isFocus" class="work-box">
     <div class="work-content-box" v-on:scroll='scrollData'>
       <el-row class="work-content" 
-      v-for="work in works.data" @click.native="gotoRouter($event, '/notice/detail/work/' + work.id)">
+      v-for="work in works.data" :key="work" @click.native="gotoRouter($event, '/notice/detail/work/' + work.id)">
         <el-col :xs="18">
           <p class="notice-detail-position">{{work.position}}</p>
           <p class="notice-detail-company-name">{{work.company_name}}</p>
@@ -73,7 +73,7 @@
         </el-col>
       </el-row>
     </div>
-    <div class="publish-box" @click="gotoRouter($event, '/notice/create/work')">
+    <div class="publish-box" @click="gotoRouter($event, '/notice/create/work/null')">
       <i class="publish-logo publish-style"></i>
       <span class="publish-font">发布兼职</span>
     </div>
@@ -195,6 +195,16 @@ export default {
   text-align: center;
   position: fixed;
   bottom: 70px
+}
+.publish-box2 {
+  margin-left: 20px;
+  width: calc(100% - 40px);
+  background: white;
+  padding: 10px 0;
+  border-radius: 5px;
+  text-align: center;
+  position: fixed;
+  bottom: 60px
 }
 .publish-font {
   color: #56A5FF;

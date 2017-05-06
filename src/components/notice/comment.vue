@@ -13,13 +13,13 @@
         {{data.created_at | date}}
         <span class="fr">
             <i class="scan-logo logo-style7"></i>
-            {{data.view ? data.view : '0'}}
+            {{data.view.count ? data.view.count : '0'}}
         </span>
         </p>
     </el-col>
   </el-row>
   <div class="comment-action-box">
-      <textarea placeholder="写下你的评论...." v-model="content" class="comment-content"></textarea>
+      <textarea placeholder="写下你的评论...." v-model="form.content" class="comment-content"></textarea>
   </div>
   <div class="m25" style="text-align: center">
       <p class="comment-action" @click="getComment($event)">发布评论</p>
@@ -32,7 +32,9 @@ export default {
   data () {
     return {
       data: {},
-      content: ''
+      form: {
+        content: ''
+      }
     }
   },
   created () {
@@ -51,7 +53,7 @@ export default {
       e.stopPropagation()
       let _self = this
       _self.$router.go(-1)
-      _self.postHttp('/api/info/comment/store/' + _self.$route.params.id, 'toast').then(function (data) {
+      _self.postHttp('/api/info/comment/store/' + _self.$route.params.id, _self.form, 'toast').then(function (data) {
         console.log(data)
         _self.$router.go(-1)
       })

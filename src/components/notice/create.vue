@@ -2,7 +2,7 @@
 <div class="activity-detail-list-content">
     <!--<headl :bar='false' :search="false" title="发布信息" backRouth="/notice"></headl>-->
 
-    <div v-if="createType === 'notice'">
+    <div v-if="createType !== 'work'">
       <mt-field label="公告标题" v-model="notice.title" placeholder="请输入公告标题" class="activity-create-input"></mt-field>
       <mt-field label="公告内容" v-model="notice.content" placeholder="公告内容" type="textarea" rows="4" class="activity-create-input"></mt-field>
     </div>
@@ -158,6 +158,7 @@ export default {
   },
   created () {
     this.init()
+    console.log(this.$route.params.type)
     this.createType = this.$route.params.type
   },
   methods: {

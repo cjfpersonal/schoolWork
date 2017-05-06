@@ -1,7 +1,13 @@
 <template>
 <div class="a100">
   <!--<headl :choice="choice" :search="true" title="活动信息" backRouth="/home/user"></headl>-->
-  <div class="activity-detail-list-content"
+  <!--<div class="activity-detail-list-content"-->
+  <div class="activity-list-box" v-show="$route.fullPath==='/activity/detail'">
+    <p class="activity-list-activity" :class="{'active': !isFocus }" @click.active="addActive($event, 0)">我参与的</p>
+    <p class="activity-list-activity" :class="{'active': isFocus }" @click.active="addActive($event, 1)">我创建的</p>
+  </div>
+  <div style="overflow: scroll"
+  :class="{'a100':$route.fullPath!=='/activity/detail','personal-index-box':$route.fullPath==='/activity/detail'}"
     v-on:scroll='scrollData'>
         <div v-for="data in active.data"
         style="padding: 15px 5px; background: white"
@@ -33,7 +39,9 @@
         </el-row>
       </div>
     </div>
-    <p class="create-activity" @click="gotoRouter($event, '/activity/create')">发布活动</p>
+    <!--<p class="create-activity" @click="gotoRouter($event, '/activity/create')">发布活动</p>-->
+    <p class="create-activity" v-show="$route.fullPath==='/activity/detail'" 
+    @click="gotoRouter($event, '/activity/create')">创建活动</p>
   </div>
 </template>
 
@@ -47,6 +55,7 @@ export default {
   },
   data () {
     return {
+      isFocus: false,
       choice: {
         title: '发布',
         show: true,
@@ -62,9 +71,19 @@ export default {
   methods: {
     init () {
       let _self = this
-      _self.getHttp('/api/active/list?page=1').then(function (data) {
+      let url
+      if (_self.$route.fullPath === '/activity/detail') {
+        if (_self.isFocus) {
+          url = '/api/active/list?page=1' // /api/user/actives
+        } else {
+          url = '/api/active/list?page=1' // /api/user/apply/actives
+        }
+      } else {
+        url = '/api/active/list?page=1'
+      }
+      _self.getHttp(url).then(function (data) {
         _self.active = data.actives
-        _self.page = data.actives.current_page
+        _self.page = data.actives.current_page ? data.actives.current_page : 1
       })
     },
     scrollData (e) {
@@ -80,6 +99,15 @@ export default {
           })
         }
       }
+    },
+    addActive (e, type) {
+      e.stopPropagation()
+      if (type === 0) {
+        this.isFocus = false
+      } else if (type === 1) {
+        this.isFocus = true
+      }
+      this.init()
     },
     gotoRouter: function (e, value) {
       e.stopPropagation()

@@ -32,6 +32,7 @@ export default {
     }
   },
   created: function () {
+    this.pickerValue = this.formatTime(this.pickerValue)
     this.dateType = this.dateType ? this.dateType : ('datetime')
   },
   methods: {
@@ -42,7 +43,7 @@ export default {
       this.$emit('time', this.pickerValue)
     },
     formatTime (value) {
-      if (value === '') {
+      if (!value) {
         value = new Date()
       }
       let date = new Date(value)

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="activity-head">
+    <!--<div class="activity-head">
       <el-row>
         <el-col :xs="8" :sm="6" :md="4" :lg="3">
           <div class="activity-head-left" v-if="routeRecord === '/shopping/index'" @click="gotoRouter($event, '/')">
@@ -38,8 +38,8 @@
           <li @click="gotoRouter($event, '/shopping')" v-if="routeRecord !== '/shopping/index'">商品主页</li>
         </ul>
       </div>
-    </div>
-    <router-view class="activity-body"></router-view>
+    </div>-->
+    <router-view></router-view>
   </div>
 </template>
 

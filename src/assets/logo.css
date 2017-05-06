@@ -110,6 +110,9 @@
 .logout-logo {
     background-image: url(./src/home/user/logout.png)
 }
+.food-suggest-logo {
+    background-image: url(./src/home/user/food-suggest.png)
+}
 .student-logo {
     background-image: url(./src/home/user/student.png)
 }
@@ -245,6 +248,13 @@
     display: inline-block;
     width: 20px;
     height: 11px;   
+}
+.logo-style8 {
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-block;
+    width: 8px;
+    height: 10px;   
 }
 /* 活动详情logo */
 .activity-style1 {

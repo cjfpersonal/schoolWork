@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="a100" style="overflow: scroll">
   <!--<headl title="商品交易" backRouth="/home/user"></headl>-->
   <mt-search style="height: auto"
     v-model="data.shopName"
@@ -33,8 +33,8 @@
     </div>
   </div>
   <div class='all-trade-shop-box clearfix'>
-    <div v-for="(item, index) in items" v-if='items.length>0'
-      @click="gotoRouter($event, '/shopping/manage/' + item._id)"
+    <div v-for="(item, index) in items.data" v-if='items.data.length>0'
+      @click="gotoRouter($event, '/shopping/manage/' + item.id)"
       class="trade-content-box">
       <img :src="item.shopPicture" class="trade-picture" />
       <div class="trade-description-box">
@@ -43,7 +43,7 @@
         <p class="trade-description-price">￥{{item.shopPrice}}</p>
       </div>
     </div>
-    <div v-if='items.length == 0' class="empty-box">
+    <div v-if='items.data.length === 0' class="empty-box">
       <p class="empty-logo">(ㆆᴗㆆ)</p>
       <p class="empty-description">没有搜索到您需要的商品，请尝试更换条件</p>
     </div>
@@ -66,7 +66,9 @@ export default {
         shopType: '全部',
         priceStart: '全部'
       },
-      items: []
+      items: {
+        data: []
+      }
     }
   },
   watch: {
@@ -96,6 +98,7 @@ export default {
       // '&shopType=' + oBj.shopType + '&priceStart=' + oBj.priceStart
       let url = '/api/good/list'
       _self.getHttp(url).then(function (data) {
+        _self.items = data.goods
         console.log(data)
       })
     },

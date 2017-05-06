@@ -67,6 +67,7 @@ import tradeCreate from './components/app_second_trade/create'
 import tradeManage from './components/app_second_trade/manage'
 import tradeDetail from './components/app_second_trade/detail'
 import tradeCar from './components/app_second_trade/shopping-car'
+import foodSuggest from './components/app_second_trade/foodSuggest'
 
 // 2. 定义路由
 // 每个路由应该映射一个组件。 其中"component" 可以是
@@ -92,12 +93,13 @@ const routes = [
   { path: '/login', component: userLogin },
   { path: '/beforeLogin', component: userChoice },
   { path: '/register', component: userRegister },
+  { path: '/foodSuggest/detail', component: foodSuggest },
   { path: '/notice',
     component: noticeHome,
     children: [
       { path: '', redirect: 'index' },
       { path: 'index', component: noticeIndex },
-      { path: 'create/:type', component: noticeCreate },
+      { path: 'create/:type/:id', component: noticeCreate },
       { path: 'detail/:type/:id', component: noticeDetail },
       { path: 'list/:type', component: noticeList },
       { path: 'comment/:type/:id', component: noticeComment }

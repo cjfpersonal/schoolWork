@@ -61,7 +61,7 @@
           <i class="back-course-logo logo-style6" v-if="typeInfo === 'course'"></i>
           <i class="back-course-logo logo-style6" v-if="typeInfo === 'user'"></i>
           <i class="notice-activity-logo logo-style5" v-if="typeInfo === 'activity'"></i>
-          <i class="notice-college-logo logo-style6" v-if="typeInfo === 'college'"></i>
+          <i class="notice-college-logo logo-style8" v-if="typeInfo === 'college'"></i>
         </el-col>
         <el-col :xs="22">
           <p class="notice-detail-position">{{data.title}}</p>
@@ -69,7 +69,7 @@
             {{data.created_at | date}}
             <span class="fr">
               <i class="scan-logo logo-style7"></i>
-              {{data.view ? data.view : '0'}}
+              {{data.view ? data.view.count : '0'}}
             </span>
           </p>
         </el-col>
@@ -147,7 +147,7 @@ export default {
         _self.getHttp('/api/info/partime/detail/' + id).then(function (data) {
           _self.data = data.partime
           _self.getHttp('/api/user/info/' + data.partime.user_id).then(function (user) {
-            _self.user = user.userInfo
+            _self.user = user.user.info
           })
         })
       }

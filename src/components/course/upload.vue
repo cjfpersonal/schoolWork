@@ -55,8 +55,9 @@ export default {
       let _self = this
       const formData = new FormData()
       formData.append('file', this.fileRecord)
-      _self.postHttp('/api/course/upload', formData).then(function (data) {
-        console.log(data)
+      _self.postHttp('/api/course/upload/' + _self.$route.params.id, formData, 'toast').then(function (data) {
+        _self.fileRecord = ''
+        _self.uploadName = ''
       })
     }
   }

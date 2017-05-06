@@ -19,6 +19,7 @@ Vue.prototype.getHttp = function (url, type) {
           duration: 1000,
           message: data.errmsg
         })
+        resolve(data)
       }
       if (data.errcode === 0) {
         resolve(data.data)
@@ -31,7 +32,7 @@ Vue.prototype.getHttp = function (url, type) {
         return false
       }
     }).catch(function (data) {
-      if (data.status === 403) {
+      if (data.status === 401) {
         this.$router.push('/')
         return false
       }
@@ -47,14 +48,20 @@ Vue.prototype.getHttp = function (url, type) {
 /**
  * @description post请求
  */
-Vue.prototype.postHttp = function (url, data) {
+Vue.prototype.postHttp = function (url, data, type) {
   let _self = this
   return new Promise(function (resolve) {
     // let url = 'http://cjfpersonal.com' + path
     _self.$http.post(url, data).then(function (response) {
       return response.json()
     }).then(function (data) {
-      if (data.errcode === 0) {
+      if (type === 'toast' && data.errcode === 0) {
+        Toast({
+          duration: 1000,
+          message: data.errmsg
+        })
+        resolve(data)
+      } else if (data.errcode === 0) {
         resolve(data)
       } else {
         Toast({
@@ -77,7 +84,7 @@ Vue.prototype.postHttp = function (url, data) {
           message: description,
           iconClass: 'el-icon-circle-cross'
         })
-      } else if (data.status === 403) {
+      } else if (data.status === 401) {
         this.$router.push('/')
         return false
       } else {

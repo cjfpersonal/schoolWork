@@ -96,6 +96,7 @@ export default {
         pointArray.forEach(function (item, index) {
           let icon = data.actives.data[index].poster
           let point = new window.BMap.Point(item.lng, item.lat)
+          // let point = new window.BMap.Point(data.lng, data.lat)
           let marker = new _self.InitMarket(point, icon)
           let floatConten = new _self.ComplexCustomOverlay(point, data.actives.data[index])
 

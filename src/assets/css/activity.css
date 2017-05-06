@@ -202,6 +202,7 @@
     font-weight: 700;
     float: left;
     background: white;
+    border-bottom: 1px solid rgba(0, 0, 0, .1);
     position: relative
 }
 .activity-list-activity:nth-child(1) {

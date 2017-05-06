@@ -14,7 +14,14 @@
         <p class="activity-content-des-con">{{data.introduction}}</p>
       </div>
     </div>
-    <p class="create-activity" @click="gotoRouter($event, '/college/decide/' + data.id)">加入社团</p>
+    <p class="create-activity" 
+    v-if="!applied"
+    @click="gotoRouter($event, '/college/decide/' + data.id)">加入社团</p>
+    <p class="create-activity" v-if="applied&&publish===0">查看成员</p>
+    <el-row style="width: 100%; position: fixed; bottom: 0" v-if="publish === 1">
+      <el-col :xs="12" class="total-show" @click.native="gotoRouter($event, '/notice/create/college/' + data.id)">发布公告</el-col>
+      <el-col :xs="12" class="apply" @click="confirmInfo($event)">查看成员</el-col>
+  </el-row>
   </div>
 </template>
 
@@ -23,7 +30,9 @@ export default {
   name: 'activityDetail',
   data: function () {
     return {
-      data: {}
+      data: {},
+      publish: 0,
+      applied: false
     }
   },
   created: function () {
@@ -34,6 +43,8 @@ export default {
       let _self = this
       _self.getHttp('/api/league/detail/' + _self.$route.params.id).then(function (data) {
         _self.data = data.league
+        _self.applied = data.applied
+        _self.publish = data.can_publish
       })
     },
     gotoRouter: function (e, value) {

@@ -1,6 +1,7 @@
 <template>
 <div class="a100">
   <el-row class="show-list-box" style="margin-bottom: 5px;" v-for="data in datas"
+  :key="data"
   @click.native="startChart($event, data.id, data.name)">
     <el-col :xs="8" class="show-list-img-box">
         <img src="../../assets/src/szu_logo.jpg" class="show-list-img" />
