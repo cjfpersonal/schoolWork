@@ -30,6 +30,15 @@
     width: 30px;
     height: 30px;
 }
+.chart-logo.active {
+    animation: shake 2s linear infinite;
+}
+@keyframes shake {
+    0%, 50% {transform: translateX(0);}
+    5%, 10%, 20%, 30%, 40% {transform: translateX(-5px);}
+    15%, 25%, 35%, 45% {transform: translateX(5px);}
+    100% {transform: translateX(0);}
+} 
 .user-logo {
     background-image: url(./src/login-register/user.png);
     background-repeat: no-repeat;

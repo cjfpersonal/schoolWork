@@ -8,6 +8,7 @@
     </el-table>
     <chart :showChartChoice="showChartChoice" title="活动聊天" v-on:back="hideChart"></chart>
     <i v-if="!showChartChoice&&checkRoute" class="chart-logo right-bottom"
+    id="chartMove"
     v-on:click="showChart()" ref="toastChart"></i>
     <router-view class="a100"></router-view>
   </div>
@@ -36,6 +37,10 @@ export default {
   },
   methods: {
     showChart () {
+      let dom = document.getElementById('chartMove')
+      if (dom.classList.contains('active')) {
+        dom.classList.remove('active')
+      }
       this.showChartChoice = true
     },
     showChart2 () {

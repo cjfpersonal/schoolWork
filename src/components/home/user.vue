@@ -69,7 +69,7 @@
        <el-col :xs="2"><i class="el-icon-arrow-right" style="color: #dfdfdf"></i></el-col>
      </el-row>
      <el-row class="show-list-box" style="height: 50px;line-height: 50px"
-     @click.native="gotoRouter($event, '/foodSuggest/detail')">
+     @click.native="gotoRouter($event, '/foodSuggest/list')">
        <el-col :xs="6" style="text-align: center">
          <i class="food-suggest-logo logo-style3" style="transform: translateY(25%)"></i>
        </el-col>
@@ -139,6 +139,7 @@ export default {
     logout (e, path) {
       let _self = this
       _self.getHttp('/api/user/logout').then(function (data) {
+        document.cookie = ''
         _self.gotoRouter(e, path)
       })
     },

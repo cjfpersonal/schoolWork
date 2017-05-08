@@ -25,7 +25,7 @@
     </div>
     <div v-if='course.data.length === 0' class="empty-box">
       <p class="empty-logo">(ㆆᴗㆆ)</p>
-      <p class="empty-description">没有搜索到您需要的商品，请尝试更换条件</p>
+      <p class="empty-description">暂时未查到相关课程</p>
     </div>
     <p class="create-activity" v-show="$route.fullPath==='/course/index'" 
     @click="gotoRouter($event, '/course/create')">创建课程</p>
@@ -52,9 +52,9 @@ export default {
       let url
       if (_self.$route.fullPath === '/course/index') {
         if (_self.isFocus) {
-          url = '/api/course/list?page=1' // /api/user/courses
+          url = '/api/user/courses?page=1'
         } else {
-          url = '/api/course/list?page=1' // /api/user/apply/courses
+          url = '/api/user/apply/courses?page=1'
         }
       } else {
         url = '/api/course/list?page=1'
@@ -66,10 +66,20 @@ export default {
     },
     scrollData (e) {
       e.stopPropagation()
+      let dom = e.target
+      let _self = this
+      let url
+      if (_self.$route.fullPath === '/course/index') {
+        if (_self.isFocus) {
+          url = '/api/user/courses?page='
+        } else {
+          url = '/api/user/apply/courses?page='
+        }
+      } else {
+        url = '/api/course/list?page='
+      }
       if (this.page < this.course.last_page) {
-        let url = '/api/course/list?page=' + (parseInt(this.page) + 1)
-        let dom = e.target
-        let _self = this
+        url = url + (parseInt(this.page) + 1)
         if (dom.offsetHeight + dom.scrollTop >= dom.scrollHeight) {
           _self.getHttp(url).then(function (data) {
             _self.course.data = _self.course.data.concat(data.courses.data)

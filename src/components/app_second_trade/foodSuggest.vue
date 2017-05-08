@@ -14,7 +14,7 @@
     <div class="clearfix" style="padding: 10px">
       <mt-radio class="type-choice-radio"
         v-model="shopType.choice"
-        :options="['全部', '衣服', '商品', '医药', '水果', '零食', '电器', '家具', '书籍', '瓷器', '其他']">
+        :options="classify">
       </mt-radio>
     </div>
   </div>
@@ -22,13 +22,13 @@
     <div class="clearfix" style="padding: 10px">
       <mt-radio class="type-choice-radio"
         v-model="order.choice"
-        :options="['全部', '0', '200', '400', '600', '800', '1000']">
+        :options="sort_by">
       </mt-radio>
     </div>
   </div>
   <div class='activity-detail-list-content clearfix' v-on:scroll='scrollData'>
     <el-row  v-if='datas.length > 0' v-for="data,index in datas" :key="index" class="food-suggest-box"
-        @click.native="getDetail($event, data.shop_id)">
+        @click.native="gotoRouter($event, '/foodSuggest/detail/' + data.shop_id)">
       <el-col :xs="10" style="text-align: center;min-height:120px">
         <img :src="data.logo_url" style="min-height:120px;width: 90%" />
       </el-col>
@@ -71,6 +71,8 @@ export default {
       datas: [],
       page: 1,
       total: 10,
+      classify: [],
+      sort_by: [],
       shopType: {
         choice: '',
         array: []
@@ -93,6 +95,19 @@ export default {
       }).then(function (data) {
         _self.datas = data.result.shop_info
         _self.total = data.result.total
+        _self.classify = []
+        data.result.classify.forEach(function (item, index) {
+          _self.classify.push({
+            label: item.name,
+            value: item.id
+          })
+        })
+        data.result.sortby.forEach(function (item, index) {
+          _self.sort_by.push({
+            label: item.msg,
+            value: item.type
+          })
+        })
       })
     },
     showChoice (e, index) {
@@ -121,11 +136,9 @@ export default {
         }
       }
     },
-    getDetail (e, id) {
+    gotoRouter (e, path) {
       e.stopPropagation()
-      this.$http.jsonp('http://waimai.baidu.com/waimai/shop/' + id).then(function (data) {
-        console.log(data)
-      })
+      this.$router.push(path)
     }
   }
 }

@@ -68,6 +68,7 @@ import tradeManage from './components/app_second_trade/manage'
 import tradeDetail from './components/app_second_trade/detail'
 import tradeCar from './components/app_second_trade/shopping-car'
 import foodSuggest from './components/app_second_trade/foodSuggest'
+import foodSuggestDetail from './components/app_second_trade/foodSuggestDetail'
 
 // 2. 定义路由
 // 每个路由应该映射一个组件。 其中"component" 可以是
@@ -93,7 +94,8 @@ const routes = [
   { path: '/login', component: userLogin },
   { path: '/beforeLogin', component: userChoice },
   { path: '/register', component: userRegister },
-  { path: '/foodSuggest/detail', component: foodSuggest },
+  { path: '/foodSuggest/list', component: foodSuggest },
+  { path: '/foodSuggest/detail/:id', component: foodSuggestDetail },
   { path: '/notice',
     component: noticeHome,
     children: [
@@ -124,7 +126,8 @@ const routes = [
       { path: 'create', component: collegeCreate },
       { path: 'detail/:id', component: collegeDetail },
       { path: 'decide/:id', component: collegeDecideAttend },
-      { path: 'addsuccess/:id', component: successCollege }
+      { path: 'addsuccess/:id', component: successCollege },
+      { path: 'list', component: collegeIndex }
     ]
   },
   { path: '/tradeIndex', component: tradeIndex },
@@ -137,7 +140,8 @@ const routes = [
       { path: 'create', component: activityCreate },
       { path: 'detail/:id', component: activityoneDetail },
       { path: 'decide/:id', component: activityDecideAttend },
-      { path: 'addsuccess/:id', component: successActivity }
+      { path: 'addsuccess/:id', component: successActivity },
+      { path: 'list', component: activityDetail }
     ]
   },
   { path: '/shopping',

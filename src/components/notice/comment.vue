@@ -52,9 +52,7 @@ export default {
     getComment (e) {
       e.stopPropagation()
       let _self = this
-      _self.$router.go(-1)
       _self.postHttp('/api/info/comment/store/' + _self.$route.params.id, _self.form, 'toast').then(function (data) {
-        console.log(data)
         _self.$router.go(-1)
       })
     }

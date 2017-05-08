@@ -7,6 +7,7 @@
     <p class="activity-list-activity" :class="{'active': isFocus }" @click.active="addActive($event, 1)">我创建的</p>
   </div>
   <div style="overflow: scroll"
+  v-if='active.data.length > 0'
   :class="{'a100':$route.fullPath!=='/activity/detail','personal-index-box':$route.fullPath==='/activity/detail'}"
     v-on:scroll='scrollData'>
         <div v-for="data in active.data"
@@ -39,6 +40,10 @@
         </el-row>
       </div>
     </div>
+    <div v-if='active.data.length === 0' class="empty-box">
+      <p class="empty-logo">(ㆆᴗㆆ)</p>
+      <p class="empty-description">暂时未查到相关活动</p>
+    </div>
     <!--<p class="create-activity" @click="gotoRouter($event, '/activity/create')">发布活动</p>-->
     <p class="create-activity" v-show="$route.fullPath==='/activity/detail'" 
     @click="gotoRouter($event, '/activity/create')">创建活动</p>
@@ -46,13 +51,8 @@
 </template>
 
 <script>
-import headl from '../common/head'
-
 export default {
   name: 'activityDetail',
-  components: {
-    'headl': headl
-  },
   data () {
     return {
       isFocus: false,
@@ -61,7 +61,9 @@ export default {
         show: true,
         path: '/activity/create'
       },
-      active: [],
+      active: {
+        data: []
+      },
       page: 0
     }
   },
@@ -74,9 +76,9 @@ export default {
       let url
       if (_self.$route.fullPath === '/activity/detail') {
         if (_self.isFocus) {
-          url = '/api/active/list?page=1' // /api/user/actives
+          url = '/api/user/actives?page=1' // /api/user/actives
         } else {
-          url = '/api/active/list?page=1' // /api/user/apply/actives
+          url = '/api/user/apply/actives?page=1' // /api/user/apply/actives
         }
       } else {
         url = '/api/active/list?page=1'
@@ -88,10 +90,20 @@ export default {
     },
     scrollData (e) {
       e.stopPropagation()
+      let dom = e.target
+      let _self = this
+      let url
+      if (_self.$route.fullPath === '/activity/detail') {
+        if (_self.isFocus) {
+          url = '/api/user/actives?page='
+        } else {
+          url = '/api/user/apply/actives?page='
+        }
+      } else {
+        url = '/api/active/list?page='
+      }
       if (this.page < this.active.last_page) {
-        let url = '/api/active/list?page=' + (parseInt(this.page) + 1)
-        let dom = e.target
-        let _self = this
+        url = url + (parseInt(this.page) + 1)
         if (dom.offsetHeight + dom.scrollTop >= dom.scrollHeight) {
           _self.getHttp(url).then(function (data) {
             _self.active.data = _self.active.data.concat(data.actives.data)

@@ -19,7 +19,8 @@
           <i class="activity-money-logo activity-style5" style="transform: translateY(25%)"></i>
           <span style="padding-left: 10px">费用: {{data.money === 0?'免费':data.money}}</span></p>
       </div>
-      <div class="m5 user-attend-box" v-if="users.length>0">
+      <div class="m5 user-attend-box" v-if="users.length>0 && applied" 
+        @click="gotoRouter($event, '/userList/activity/' + data.id)">
         <img class="user-attend-img" v-for="user,index in users" :key="index" v-if="index<4" :src="user.wx_head_img" />
         <span class="user-total-attend">{{users.length + '人参与'}}</span>
       </div>
@@ -30,44 +31,52 @@
       </div>
     </div>
     <el-row class="m15 apply-box">
-      <el-col :xs="6" class="phone-call">
+      <el-col :xs="6" class="phone-call" @click.native="phoneRemain">
         <i class="activity-phone-active-logo logo-style2"></i>
         <p>联系</p>
       </el-col>
-      <el-col :xs="18" class="apply" @click.native="gotoRouter($event, '/activity/decide/' + data.id)">立即报名</el-col>
+      <el-col :xs="18" class="apply" v-if="!applied" @click.native="gotoRouter($event, '/activity/decide/' + data.id)">立即报名</el-col>
+      <el-col :xs="18" class="apply black" v-if="applied&&publish===0">已报名</el-col>
+      <el-col :xs="18" class="apply" v-if="applied&&publish===1" @click.native="gotoRouter($event, '/notice/create/active/' + data.id)">发起活动公告</el-col>
     </el-row>
   </div>
 </template>
 
 <script>
-import headl from '../common/head'
+import {MessageBox} from 'mint-ui'
 export default {
   name: 'activityDetail',
-  components: {
-    'headl': headl
-  },
-  data: function () {
+  data () {
     return {
+      applied: false,
+      publish: 0,
       data: {},
       users: []
     }
   },
-  created: function () {
+  created () {
     this.init()
   },
   methods: {
-    init: function () {
+    init () {
       let _self = this
       _self.getHttp('/api/active/detail/' + _self.$route.params.id).then(function (data) {
         _self.data = data.active
+        _self.applied = data.applied
+        _self.publish = data.can_publish
       })
       _self.getHttp('/api/active/getApplyActiveUsers/' + _self.$route.params.id).then(function (data) {
         _self.users = data.users
       })
     },
-    gotoRouter: function (e, value) {
+    gotoRouter (e, value) {
       e.stopPropagation()
       this.$router.push(value)
+    },
+    phoneRemain (e) {
+      e.stopPropagation()
+      let _self = this
+      MessageBox('提示', '请拨打' + _self.data.phone)
     }
   }
 }
@@ -118,6 +127,9 @@ export default {
   text-align: center;
   line-height: 50px;
   background: #539fff;
+}
+.black {
+  background: #C5C5C5
 }
 .apply-box {
   position: fixed;

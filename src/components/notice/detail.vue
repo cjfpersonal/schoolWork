@@ -35,7 +35,7 @@
             <p>{{data.description}}</p>
         </div>
         <p class="notice-mid-info">发布者</p>
-        <el-row class="show-list-box" @click.native="gotoRouter($event, '/userInfo')">
+        <el-row class="show-list-box" @click.native="gotoRouter($event, '/userList/personal/' + user.id)">
           <el-col :xs="8" class="show-list-img-box">
               <img :src="user.wx_head_img" class="show-list-img" />
           </el-col>
@@ -75,7 +75,7 @@
         </el-col>
       </el-row>
       <div class="notice-content-box">
-          <p>{{data.content}}</p>
+          <p style="word-wrap:break-word;text-indent: 24px">{{data.content}}</p>
       </div>
       <p class="notice-mid-info">
         评论区
@@ -86,26 +86,24 @@
         </span>
       </p>
       <el-row class="show-list-box" 
-       v-if="comments.length > 0">
+      v-for="item,index in comments.data" :key="index"
+       v-if="comments.data.length > 0">
         <el-col :xs="8" class="show-list-img-box">
-            <img :src="user.wx_head_img" class="show-list-img" />
+            <img :src="item.user.info.wx_head_img" class="show-list-img" />
         </el-col>
         <el-col :xs="14" class="show-list-font-box">
-          <div class="show-list-font">
+          <div class="a100" style="padding: 10px 0">
             <p>
-              <span class="show-list-name">{{user.name?user.name:'姓名'}}</span>
-              <i class="ident-small logo-style1 logo-change" v-if="user.is_certified"></i>
+              <span class="show-list-name">{{item.user.info.name?item.user.info.name:'姓名'}}</span>
+              <i class="ident-small logo-style1 logo-change" v-if="item.user.info.is_certified"></i>
             </p>
             <p style="margin-top: 10px">
-              <span style="padding-right: 10px">{{user.gender?(user.gender===1? '男': '女'):'性别'}}</span>
-              <span>{{user.grade?user.grade:'年级'}}</span>
+              {{item.content}}
             </p>
-            <p>{{user.college?user.college:'学校'}}</p>
           </div>
         </el-col>
-        <el-col :xs="2" class="right-point"><i class="el-icon-arrow-right"></i></el-col>
       </el-row>
-      <div style="background: white; padding: 15px 0" v-if="comments.length === 0">
+      <div style="background: white; padding: 15px 0" v-if="comments.data.length === 0">
         <p class="empty-logo">(ㆆᴗㆆ)</p>
         <p class="empty-description">暂无评论，是否即兴表演展示下</p>
       </div>
@@ -113,18 +111,16 @@
 </div>
 </template>
 <script>
-import headl from '../common/head'
 export default {
-  components: {
-    'headl': headl
-  },
   name: 'notice',
   data () {
     return {
       typeInfo: '',
       data: {},
       user: {},
-      comments: []
+      comments: {
+        data: []
+      }
     }
   },
   created () {

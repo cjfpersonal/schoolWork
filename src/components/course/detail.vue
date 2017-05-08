@@ -5,6 +5,13 @@
     v-on:get="getResourceDetail"
     v-on:edit="uploadTxt"
     v-on:close="closeResource"></toast-choice>-->
+  <el-table
+    id="loadding2"
+    class="a100 loadding2"
+    style="display: none"
+    v-loading="true"
+    element-loading-text="签到定位中">
+    </el-table>
   <div :class="{'activity-detail-list-content':publish===0,'personal-index-box':publish===1}"
    v-on:scroll='scrollData'>
     <el-row class="show-list-box"
@@ -82,11 +89,14 @@
   </div>
   <el-row style="width: 100%; position: fixed; bottom: 0" v-if="apply && publish===0">
       <el-col :xs="12" class="total-show" @click.native="gotoRouter($event, '/course/upload/' + data.id)">上传资料</el-col>
-      <el-col :xs="12" class="apply" @click="confirmInfo($event)">课程签到</el-col>
+      <el-col :xs="12" class="apply black" v-if="!hasSign&&!is_sign">未开放签到</el-col>
+      <el-col :xs="12" class="apply" v-if="hasSign&&!is_sign" @click.native="sign($event, data.id)">课程签到</el-col>
+      <el-col :xs="12" class="apply black" v-if="is_sign" @click="sign($event, data.id)">已签到</el-col>
   </el-row>
   <el-row style="width: 100%; position: fixed; bottom: 0" v-if="publish === 1">
       <el-col :xs="12" class="total-show" @click.native="gotoRouter($event, '/course/upload/' + data.id)">上传资料</el-col>
-      <el-col :xs="12" class="apply" @click="confirmInfo($event)">发起签到</el-col>
+      <el-col :xs="12" class="apply" v-if="!hasSign" @click.native="startSign($event, data.id)">发起签到</el-col>
+      <el-col :xs="12" class="apply black" v-if="hasSign">已发起签到</el-col>
   </el-row>
 </div>
 </template>
@@ -99,6 +109,8 @@ export default {
       publish: 0,
       apply: false,
       applyNum: '',
+      hasSign: false,
+      is_sign: false,
       data: {},
       resource: {
         data: []
@@ -116,6 +128,8 @@ export default {
         _self.data = data.course
         _self.apply = data.applied
         _self.publish = data.can_publish
+        _self.hasSign = data.hasSign
+        _self.is_sign = data.is_sign
         _self.getHttp('/api/course/file/list/' + _self.$route.params.id).then(function (data) {
           _self.resource = data.files
         })
@@ -160,6 +174,42 @@ export default {
         }
       }
     },
+    sign (e, id) {
+      e.stopPropagation()
+      let loadding2 = document.getElementById('loadding2')
+      let geolocation = new window.BMap.Geolocation()
+      let _self = this
+      MessageBox.confirm('确定进行签到？').then(action => {
+        loadding2.style.display = 'block'
+        geolocation.getCurrentPosition(function (r) {
+          loadding2.style.display = 'none'
+          _self.postHttp('/api/course/sign/' + id, r.point, 'toast').then(function (data) {
+            _self.init()
+          })
+        })
+      }).catch(function () {
+        console.log(456)
+      })
+    },
+    startSign (e, id) {
+      e.stopPropagation()
+      let geolocation = new window.BMap.Geolocation()
+      let _self = this
+      setTimeout(function () {
+        let loadding2 = document.getElementById('loadding2')
+        MessageBox.confirm('确定发起签到？').then(action => {
+          loadding2.style.display = 'block'
+          geolocation.getCurrentPosition(function (r) {
+            loadding2.style.display = 'none'
+            _self.postHttp('/api/course/initiate/sign/' + id, r.point, 'toast').then(function (data) {
+              _self.init()
+            })
+          })
+        }).catch(function () {
+          console.log(456)
+        })
+      })
+    },
     confirmInfo (e, id) {
       e.stopPropagation()
       let _self = this
@@ -176,7 +226,7 @@ export default {
         console.log(456)
       })
     },
-    attendActivity: function (e, type) {
+    attendActivity (e, type) {
       e.stopPropagation()
       MessageBox.confirm('确定参与该课程?').then(action => {
         Toast({

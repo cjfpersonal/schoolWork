@@ -17,10 +17,10 @@
     <p class="create-activity" 
     v-if="!applied"
     @click="gotoRouter($event, '/college/decide/' + data.id)">加入社团</p>
-    <p class="create-activity" v-if="applied&&publish===0">查看成员</p>
+    <p class="create-activity" v-if="applied&&publish===0" @click="gotoRouter($event, '/userList/league/' + data.id)">查看成员</p>
     <el-row style="width: 100%; position: fixed; bottom: 0" v-if="publish === 1">
-      <el-col :xs="12" class="total-show" @click.native="gotoRouter($event, '/notice/create/college/' + data.id)">发布公告</el-col>
-      <el-col :xs="12" class="apply" @click="confirmInfo($event)">查看成员</el-col>
+      <el-col :xs="12" class="total-show" @click.native="gotoRouter($event, '/notice/create/league/' + data.id)">发布公告</el-col>
+      <el-col :xs="12" class="apply" @click="gotoRouter($event, '/userList/league/' + data.id)">查看成员</el-col>
   </el-row>
   </div>
 </template>

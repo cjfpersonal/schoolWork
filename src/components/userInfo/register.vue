@@ -35,9 +35,25 @@
              v-model="data.email" />
         </el-col>
     </el-row>
+    <el-row style="margin-top: 10px">
+        <el-col :offset="2" :xs="20" class="input-box">
+            <i class="email-logo login-logo-local" style="margin: 14px 11px"></i>
+            <input class="login-input-all"
+            placeholder="输入真实姓名"
+             v-model="data.realname" />
+        </el-col>
+    </el-row>
+    <el-row style="margin-top: 10px">
+        <el-col :offset="2" :xs="20" class="input-box">
+            <i class="email-logo login-logo-local" style="margin: 14px 11px"></i>
+            <input class="login-input-all"
+            placeholder="输入学生学号"
+             v-model="data.student_id" />
+        </el-col>
+    </el-row>
     <el-row class="m25">
         <el-col :offset="2" :xs="20" class="input-box">
-            <p class="login-btn"  v-on:click="register($event)">注册账号</p>
+            <p class="login-btn" @keyup.enter.native="register($event)" v-on:click="register($event)">注册账号</p>
         </el-col>
     </el-row>
     <p class="no-login">
@@ -56,7 +72,9 @@ export default {
         username: '',
         password: '',
         password_confirmation: '',
-        email: ''
+        email: '',
+        realname: '',
+        student_id: ''
       }
     }
   },
@@ -69,7 +87,7 @@ export default {
       e.stopPropagation()
       let url = '/api/user/register'
       let _self = this
-      _self.postHttp(url, _self.data).then(function (data) {
+      _self.postHttp(url, _self.data, 'toast').then(function (data) {
         _self.gotoRouter(e, '/login')
       })
     }

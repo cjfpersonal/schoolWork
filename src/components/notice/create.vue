@@ -183,7 +183,11 @@ export default {
       let _self = this
       if (this.createType === 'work') {
         _self.postHttp('/api/info/partime/store', _self.work, 'toast').then(function (data) {
-          console.log(data)
+          _self.$router.go(-1)
+        })
+      } else {
+        _self.postHttp('/api/' + _self.createType + '/info/publish/' + _self.$route.params.id, _self.notice, 'toast').then(function (data) {
+          _self.$router.go(-1)
         })
       }
     }

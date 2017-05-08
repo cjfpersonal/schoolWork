@@ -5,7 +5,7 @@
       <p class="activity-list-activity" :class="{'active': isFocus }" @click.active="addActive($event, 1)">社团</p>
     </div>
     <div id='activityInfo'></div>
-    <div class="activity-logo-box" @click="gotoRouter($event, '/activity/detail')">
+    <div class="activity-logo-box" @click="gotoRouter($event, '/activity/list')">
       <i class="activity-list-logo logo-style3"></i>
     </div>
   </div>
@@ -128,7 +128,7 @@ export default {
         this.isFocus = false
       } else if (type === 1) {
         this.isFocus = true
-        this.gotoRouter(e, '/college/index')
+        this.gotoRouter(e, '/college/list')
       }
     },
     gotoRouter (e, path) {

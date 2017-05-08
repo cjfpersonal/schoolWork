@@ -8,6 +8,7 @@
     </div>
     <div :class="{'a100':$route.fullPath!=='/college/index','personal-index-box':$route.fullPath==='/college/index'}"
      style="overflow: scroll"
+     v-if='college.data.length>0'
     v-on:scroll='scrollData($event)'>
       <div v-for="data in college.data"
       style="padding: 15px 5px; background: white"
@@ -35,11 +36,11 @@
     </div>
   </div>
   <div v-if='college.data.length === 0' class="empty-box">
-      <p class="empty-logo">(ㆆᴗㆆ)</p>
-      <p class="empty-description">没有搜索到您需要的商品，请尝试更换条件</p>
-    </div>
-    <p class="create-activity" v-show="$route.fullPath==='/college/index'" 
-    @click="gotoRouter($event, '/college/create')">创建活动</p>
+    <p class="empty-logo">(ㆆᴗㆆ)</p>
+    <p class="empty-description">暂时未查到相关社团</p>
+  </div>
+  <p class="create-activity" v-show="$route.fullPath==='/college/index'" 
+  @click="gotoRouter($event, '/college/create')">创建社团</p>
   <!--<p class="create-activity" @click="gotoRouter($event, '/college/create')">创建社团</p>-->
 </div>
 </template>
@@ -64,9 +65,9 @@ export default {
       let url
       if (_self.$route.fullPath === '/college/index') {
         if (_self.isFocus) {
-          url = '/api/league/list?page=1' // /api/user/leagues
+          url = '/api/user/leagues?page=1'
         } else {
-          url = '/api/league/list?page=1' // /api/user/apply/leagues
+          url = '/api/user/apply/leagues?page=1'
         }
       } else {
         url = '/api/league/list?page=1'
@@ -78,10 +79,20 @@ export default {
     },
     scrollData (e) {
       e.stopPropagation()
+      let url
+      let dom = e.target
+      let _self = this
+      if (_self.$route.fullPath === '/college/index') {
+        if (_self.isFocus) {
+          url = '/api/user/leagues?page='
+        } else {
+          url = '/api/user/apply/leagues?page='
+        }
+      } else {
+        url = '/api/league/list?page='
+      }
       if (this.page < this.college.last_page) {
-        let url = '/api/league/list?page=' + (parseInt(this.page) + 1)
-        let dom = e.target
-        let _self = this
+        url = url + (parseInt(this.page) + 1)
         if (dom.offsetHeight + dom.scrollTop >= dom.scrollHeight) {
           _self.getHttp(url).then(function (data) {
             _self.college.data = _self.college.data.concat(data.leagues.data)

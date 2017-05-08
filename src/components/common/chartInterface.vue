@@ -3,48 +3,64 @@
     <mt-popup class="toastChoice"
         v-model="showChartChoice"
         position="bottom">
-        <h1 class="chart-title">
-            <span @click="goback" class="chart-back">退出</span>
-            {{title}}
-            </h1>
+        <el-row class="chart-title">
+            <el-col :xs="4" @click.native="goback">隐藏</el-col>
+            <el-col :xs="16">{{title}}</el-col>
+            <el-col :xs="4" @click.native="gotoRouter($event, '/home')">菜单</el-col>
+        </el-row>
         <el-row v-for="(item, index) in data" :key="index" 
-        ref="showChartDetail2"
-        class="chart-list-box" @click.native="showDetail">
-            <el-col :xs="5">
-                <img :src="item.img" class="chart-list-img" />                
+        v-if='data.length > 0'
+        class="chart-list-box" @click.native="showDetail(item.send_to)">
+            <el-col :xs="7">
+              <el-badge :value="item.readed" class="item">
+                <el-button size="small"><img :src="item.to_user.info.wx_head_img" class="chart-list-img" /></el-button>
+              </el-badge>
             </el-col>
-            <el-col :xs="19">
-                <h3 class="chart-list-name">{{item.name}}</h3>
+            <el-col :xs="17">
+                <h3 class="chart-list-name">
+                  {{item.to_user.info.name?item.to_user.info.name:(item.to_user.info.wx_nickname?item.to_user.info.wx_nickname:item.to_user.username)}}
+                </h3>
             </el-col>
         </el-row>
+        <div v-if='data.length === 0' class="empty-box">
+              <p class="empty-logo">(ㆆᴗㆆ)</p>
+              <p class="empty-description">暂无朋友聊天</p>
+            </div>
     </mt-popup>
     <mt-popup v-model="showChartDetail" position="right"
+    ref="checkChartId"
     class="toastChoice">
         <h1 class="chart-title">
             <span @click="hideDetail" class="chart-back">返回</span>
             聊天信息
         </h1>
-        <div class="chart-detail-box" id="chartScroll">
-            <el-row v-for="(content, index) in chartContent" :key="index" class="m25">
-                <el-col :xs="4" style="text-align: center" v-if="content.role !== 'me'">
-                    <img :src="content.img" class="chart-list-img" />                
+        <div class="chart-detail-box" id="chartScroll"
+        v-on:scroll='scrollData'>
+            <el-row v-if="chartContent.messages.data.length > 0" 
+              v-for="(content, index) in chartContent.messages.data" :key="index" class="m25">
+                <el-col :xs="4" style="text-align: center" v-if="content.send_from!==chartContent.form_user.id">
+                    <img :src="chartContent.to_user.wx_head_img" class="chart-list-img" />                
                 </el-col>
-                <el-col :xs="17" v-if="content.role !== 'me'">
-                    <p>{{content.auth}}</p>
-                    <h3 class="chart-detail-message">{{content.message}}</h3>
+                <el-col :xs="17" v-if="content.send_from!==chartContent.form_user.id">
+                    <p>{{chartContent.to_user.name}}</p>
+                    <h3 class="chart-detail-message">{{content.content}}</h3>
                 </el-col>
-                <el-col :offset="3" :xs="17" v-if="content.role === 'me'">
-                    <p style="text-align: right">{{content.auth}}</p>
-                    <h3 class="chart-detail-message" style="background:#20a0ff; color: white">{{content.message}}</h3>
+                <el-col :offset="3" :xs="17" v-if="content.send_from===chartContent.form_user.id">
+                    <p style="text-align: right">{{chartContent.form_user.name}}</p>
+                    <h3 class="chart-detail-message" style="background:#20a0ff; color: white">{{content.content}}</h3>
                 </el-col>
-                <el-col :xs="4" style="text-align: center" v-if="content.role === 'me'">
-                    <img :src="content.img" class="chart-list-img" />                
+                <el-col :xs="4" style="text-align: center" v-if="content.send_from===chartContent.form_user.id">
+                    <img :src="chartContent.form_user.wx_head_img" class="chart-list-img" />                
                 </el-col>
             </el-row>
+            <div v-if='chartContent.messages.data.length === 0' class="empty-box">
+              <p class="empty-logo">(ㆆᴗㆆ)</p>
+              <p class="empty-description">暂无聊天记录</p>
+            </div>
         </div>
         <div class="chart-footer">
             <mt-field placeholder="输入信息" type="textarea" rows="4" 
-            v-model="sendContent"
+            v-model="send.content"
             @keyup.enter.native="sendMessage"
             class="textarea-chart"></mt-field>
             <mt-button type="primary" class="btn-chart" @click.native="sendMessage">发送</mt-button>
@@ -59,98 +75,100 @@ export default {
   data () {
     return {
       data: [],
+      pusher: '',
       recordTitle: '',
       showChartDetail: false,
-      chartContent: [],
-      sendContent: ''
+      chartContent: {
+        messages: {
+          data: []
+        }
+      },
+      page: 1,
+      send: {
+        send_to: 0,
+        content: ''
+      }
     }
   },
   watch: {
+    'showChartChoice' (newVal, oldVal) {
+      this.listInit()
+    }
   },
   created () {
-    this.data = [{
-      name: '深大创客群',
-      img: require('../../assets/src/college.png')
-    }, {
-      name: '逗比战斗群',
-      img: require('../../assets/src/college.png')
-    }, {
-      name: '技术交流群',
-      img: require('../../assets/src/college.png')
-    }]
+    window.Pusher.logToConsole = true
+    this.pusher = new window.Pusher('5a573c7b51d3fbfc6713', {
+      cluster: 'ap1',
+      encrypted: true
+    })
+    this.listInit()
     this.init()
   },
   methods: {
+    listInit () {
+      let _self = this
+      _self.getHttp('/api/message/user/list').then(function (data) {
+        _self.data = data.messages
+      })
+    },
     init () {
-      console.log(3456789)
+      let _self = this
+      var channel = this.pusher.subscribe('message-channel')
+      channel.bind('message-event-' + parseInt(_self.getCookie('user_id')), function (data) {
+        _self.listInit()
+        if (!_self.showChartChoice) {
+          let dom = document.getElementById('chartMove')
+          dom.classList.add('active')
+        }
+      })
     },
     goback () {
       this.$emit('back')
     },
-    showDetail () {
-      console.log(23456765432)
-      // this.recordTitle = item.name ? item.name : ''
+    gotoRouter (e, path) {
+      e.stopPropagation()
+      this.goback()
+      this.$router.push(path)
+    },
+    outEntry (id) {
+      this.showDetail(id)
+    },
+    showDetail (id) {
+      console.log(id)
+      let _self = this
+      _self.send.send_to = id
+      var channel = this.pusher.subscribe('message-channel')
+      channel.bind('message-event-' + parseInt(_self.getCookie('user_id')) + '-' + id, function (data) {
+        _self.chartContent.messages.data.push({
+          send_from: id,
+          content: data.content
+        })
+        _self.gotoBottom()
+      })
+      _self.getHttp('/api/message/list/' + id).then(function (data) {
+        _self.chartContent = data
+        _self.chartContent.messages.data = data.messages.data.reverse()
+        _self.gotoBottom()
+      })
       this.showChartDetail = true
-      this.chartContent = [{
-        auth: '减肥胆大f',
-        role: 'other',
-        img: require('../../assets/src/college.png'),
-        message: '代发几款手机了的骄傲是福利大数据量点击阿斯利康回复大家来撒会尽量快多撒谎借口了丰厚的时间安理会几点回来撒谎发垃圾快点哈就离开较好的萨酒喝多了发撒好久'
-      }, {
-        auth: '减肥范德萨发',
-        role: 'other',
-        img: require('../../assets/src/college.png'),
-        message: '代发几款手机了的骄傲是福利大数据量点击阿斯利康回复大家来撒会尽量快多撒谎借口了丰厚的时间安理会几点回来撒谎发垃圾快点哈就离开较好的萨酒喝多了发撒好久'
-      }, {
-        auth: '减肥 大师傅',
-        role: 'other',
-        img: require('../../assets/src/college.png'),
-        message: '代发几款手机了的骄傲是福利大数据量点击阿斯利康回复大家来撒会尽量快多撒谎借口了丰厚的时间安理会几点回来撒谎发垃圾快点哈就离开较好的萨酒喝多了发撒好久'
-      }, {
-        auth: '减肥答复',
-        role: 'other',
-        img: require('../../assets/src/college.png'),
-        message: '代发几款手机了的骄傲是福利大数据量点击阿斯利康回复大家来撒会尽量快多撒谎借口了丰厚的时间安理会几点回来撒谎发垃圾快点哈就离开较好的萨酒喝多了发撒好久'
-      }, {
-        auth: '减肥',
-        role: 'me',
-        img: require('../../assets/src/college.png'),
-        message: '代发几款手机了的骄傲是福利大数据量点击阿斯利康回复大家来撒会尽量快多撒谎借口了丰厚的时间安理会几点回来撒谎发垃圾快点哈就离开较好的萨酒喝多了发撒好久'
-      }, {
-        auth: '减肥地方；刷卡；理发店',
-        role: 'other',
-        img: require('../../assets/src/college.png'),
-        message: '代发几款手机了的骄傲是福利大数据量点击阿斯利康回复大家来撒会尽量快多撒谎借口了丰厚的时间安理会几点回来撒谎发垃圾快点哈就离开较好的萨酒喝多了发撒好久'
-      }, {
-        auth: '减肥范德萨发',
-        role: 'other',
-        img: require('../../assets/src/college.png'),
-        message: '代发几款手机了的骄傲是福利大数据量点击阿斯利康回复大家来撒会尽量快多撒谎借口了丰厚的时间安理会几点回来撒谎发垃圾快点哈就离开较好的萨酒喝多了发撒好久'
-      }, {
-        auth: '减肥地方撒',
-        role: 'other',
-        img: require('../../assets/src/college.png'),
-        message: '代发几款手机了的骄傲是福利大数据量点击阿斯利康回复大家来撒会尽量快多撒谎借口了丰厚的时间安理会几点回来撒谎发垃圾快点哈就离开较好的萨酒喝多了发撒好久'
-      }, {
-        auth: '减肥范德萨',
-        role: 'other',
-        img: require('../../assets/src/college.png'),
-        message: '代发几款手机了的骄傲是福利大数据量点击阿斯利康回复大家来撒会尽量快多撒谎借口了丰厚的时间安理会几点回来撒谎发垃圾快点哈就离开较好的萨酒喝多了发撒好久'
-      }]
-      this.gotoBottom()
     },
     hideDetail () {
-      this.showChartDetail = false
+      let _self = this
+      _self.showChartDetail = false
+      _self.getHttp('/api/message/out/' + _self.send.send_to).then(function (data) {
+        _self.listInit()
+      })
     },
     sendMessage () {
-      if (!this.sendContent.trim()) return false
-      this.chartContent.push({
-        auth: '减肥',
-        role: 'me',
-        img: require('../../assets/src/college.png'),
-        message: this.sendContent
+      let _self = this
+      if (!this.send.content.trim()) return false
+      _self.postHttp('/api/message/store', _self.send).then(function (data) {
       })
-      this.sendContent = ''
+      _self.chartContent.messages.data.push({
+        send_from: parseInt(_self.getCookie('user_id')),
+        content: _self.send.content
+      })
+      _self.send.content = ''
       this.gotoBottom()
     },
     gotoBottom () {
@@ -158,6 +176,24 @@ export default {
         let getChart = document.getElementById('chartScroll')
         getChart.scrollTop = getChart.scrollHeight
       })
+    },
+    scrollData (e) {
+      e.stopPropagation()
+      let _self = this
+      if (_self.page < _self.chartContent.messages.last_page) {
+        let url = '/api/message/list/' + _self.send.send_to + '?page=' + (parseInt(this.page) + 1)
+        let dom = e.target
+        let old = dom.scrollHeight
+        if (dom.scrollTop <= 0) {
+          _self.getHttp(url).then(function (data) {
+            _self.chartContent.messages.data = data.messages.data.concat(_self.chartContent.messages.data)
+            _self.page = data.messages.current_page
+            setTimeout(function () {
+              dom.scrollTop = dom.scrollHeight - old
+            })
+          })
+        }
+      }
     }
   }
 }
@@ -174,9 +210,13 @@ export default {
     font-size: 16px;
     height: 50px;
     line-height: 50px;
-    position: fixed;
+    position: fixed !important;
     box-shadow: 0 0 10px #888;
     border-bottom: 1px solid rgba(0, 0, 0, .2)
+}
+.chart-list-img {
+  width: 40px;
+  height: 40px
 }
 .chart-list-box {
     top: 50px;
@@ -185,7 +225,7 @@ export default {
     border-bottom: 1px solid rgba(0, 0, 0, .1)
 }
 .chart-list-name {
-    font-size: 14px;
+    font-size: 18px;
 }
 .chart-detail-box {
     height: calc(100% - 200px);

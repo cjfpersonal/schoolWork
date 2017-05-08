@@ -102,14 +102,20 @@ Vue.prototype.postHttp = function (url, data, type) {
  * @description 拦截器
  */
 Vue.http.interceptors.push((request, next) => {
-  setTimeout(function () {
-    let loadding = document.getElementById('loadding')
-    loadding.style.display = 'block'
+  if (request.url === '/api/message/store' || request.url === '/api/message/user/list') {
     next((response) => {
-      loadding.style.display = 'none'
       return response
     })
-  })
+  } else {
+    setTimeout(function () {
+      let loadding = document.getElementById('loadding')
+      loadding.style.display = 'block'
+      next((response) => {
+        loadding.style.display = 'none'
+        return response
+      })
+    })
+  }
 })
 /**
  * @description cookie封装

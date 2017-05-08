@@ -75,8 +75,8 @@ export default {
     confirmInfo (e) {
       e.stopPropagation()
       let _self = this
-      _self.postHttp('/api/course/store', _self.course).then(function (data) {
-        _self.gotoRouter(e, '/course')
+      _self.postHttp('/api/course/store', _self.course, 'toast').then(function (data) {
+        _self.$router.go(-1)
       })
     },
     showTime (e, moduleType, character) {

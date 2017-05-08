@@ -21,7 +21,7 @@
     </el-row>
     <el-row class="m25">
         <el-col :offset="2" :xs="20" class="input-box">
-            <p class="login-btn" v-on:click="login($event)">登录</p>
+            <p class="login-btn" @keyup.enter.native="login($event)" v-on:click="login($event)">登录</p>
         </el-col>
     </el-row>
     <p class="no-login">
